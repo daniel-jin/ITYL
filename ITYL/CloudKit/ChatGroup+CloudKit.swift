@@ -15,8 +15,8 @@ extension ChatGroup {
     init?(cloudKitRecord: CKRecord) {
         // Check for CKRecord's values and record type
         guard let chatGroupName = cloudKitRecord[Keys.chatGroupTitleKey] as? String,
-            let members = cloudKitRecord[Keys.chatGroupMembersRefKey] as? [CKReference],
-            let messages = cloudKitRecord[Keys.chatGroupMessagesRefKey] as? [CKReference] else { return nil }
+            let members = cloudKitRecord[Keys.chatGroupMembersKey] as? [User],
+            let messages = cloudKitRecord[Keys.chatGroupMessagesKey] as? [Message] else { return nil }
             
         // Set the object properties with the cloutKidRecord's values
         self.chatGroupName = chatGroupName
@@ -36,8 +36,8 @@ extension CKRecord {
         self.init(recordType: Keys.chatGroupRecordType, recordID: recordID)
         
         // Set values for the initialized CKRecord
-        self.setValue(chatGroup.chatGroupName, forKey: Keys.chatGroupRefKey)
-        self.setValue(chatGroup.members, forKey: Keys.chatGroupMembersRefKey)
-        self.setValue(chatGroup.messages, forKey: Keys.chatGroupMessagesRefKey)
+        self.setValue(chatGroup.chatGroupName, forKey: Keys.chatGroupTitleKey)
+        self.setValue(chatGroup.members, forKey: Keys.chatGroupMembersKey)
+        self.setValue(chatGroup.messages, forKey: Keys.chatGroupMessagesKey)
     }
 }

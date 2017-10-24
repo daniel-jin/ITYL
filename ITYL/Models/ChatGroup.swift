@@ -13,12 +13,15 @@ struct ChatGroup {
     
     // MARK: - Properties
     var chatGroupName: String
-    var members: [CKReference]
-    var messages: [CKReference] = []
+    
+    var members: [User]
+
+    var messages: [Message]
+    
     var cloudKitRecordID: CKRecordID?
     
     // MARK: - Initializer
-    init(chatGroupName: String, members: [CKReference], messages: [CKReference]) {
+    init(chatGroupName: String, members: [User], messages: [Message]) {
         
         self.chatGroupName = chatGroupName
         self.members = members

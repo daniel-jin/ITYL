@@ -16,13 +16,11 @@ extension Message {
         // Check for CKRecord's values and record type
         guard let messageText = cloudKitRecord[Keys.messageTextKey] as? String,
             let sendingUser = cloudKitRecord[Keys.sendingUserRefKey] as? CKReference,
-            let receivingUsers = cloudKitRecord[Keys.receivingUsersRefKey] as? [CKReference],
             let chatGroup = cloudKitRecord[Keys.chatGroupRefKey] as? CKReference else { return nil }
         
         // Set the object properties with the cloutKidRecord's values
         self.messageText = messageText
         self.sendingUser = sendingUser
-        self.receivingUsers = receivingUsers
         self.chatGroup = chatGroup
         self.cloudKitRecordID = cloudKitRecord.recordID
     }
@@ -40,7 +38,6 @@ extension CKRecord {
         // Set values for the initialized CKRecord
         self.setValue(message.messageText, forKey: Keys.messageTextKey)
         self.setValue(message.sendingUser, forKey: Keys.sendingUserRefKey)
-        self.setValue(message.receivingUsers, forKey: Keys.receivingUsersRefKey)
         self.setValue(message.chatGroup, forKey: Keys.chatGroupRefKey)
     }
 }

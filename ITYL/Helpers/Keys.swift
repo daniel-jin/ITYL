@@ -15,10 +15,11 @@ struct Keys {
     
     static let chatGroupsRefKey = "chatGroupsRef"
     static let chatGroupRefKey = "chatGroupRef"
-    static let chatGroupMembersRefKey = "chatGroupMembersRef"
+    static let chatGroupMembersKey = "chatGroupMembers"
     
     static let userRecordType = "User"
     static let usernameKey = "Username"
+    static let userPhotoKey = "UserPhoto"
     
     static let messageRecordType = "Message"
     static let messageTextKey = "MessageText"
@@ -27,7 +28,7 @@ struct Keys {
     
     static let chatGroupRecordType = "ChatGroup"
     static let chatGroupTitleKey = "ChatGroupTitle"
-    static let chatGroupMessagesRefKey = "ChatGroupMessages"
+    static let chatGroupMessagesKey = "ChatGroupMessages"
     
     // MARK: - Keys for notification center
     static let DidChangeNotification = Notification.Name("DidChangeNotification")
