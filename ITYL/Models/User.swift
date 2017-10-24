@@ -8,17 +8,26 @@
 
 import Foundation
 import CloudKit
+import UIKit
 
 struct User {
  
     // MARK: - Properties
     let username: String
-    let recordID: CKRecordID
+    var cloudKitRecordID: CKRecordID?
+//    var photo: UIImage?
+    
+    // Reference to the default Apple Users record ID
+    var appleUserRef: CKReference
+    
+    // Reference to the chatGroups that the user belongs to
+    var chatGroupsRef: [CKReference] = []
  
     // MARK: - Initializer
-    init(username: String, recordID: CKRecordID = CKRecord(recordType: Keys.userRecordType).recordID) {
+    init(username: String, appleUserRef: CKReference, chatGroupsRef: [CKReference]) {
         self.username = username
-        self.recordID = recordID
+        self.appleUserRef = appleUserRef
+        self.chatGroupsRef = chatGroupsRef
     }
 }
 
@@ -26,11 +35,6 @@ struct User {
 extension User: Equatable {
     // Compare user objects by checking user's CK Record ID
     static func ==(lhs: User, rhs: User) -> Bool {
-        return lhs.recordID == rhs.recordID
+        return lhs.cloudKitRecordID == rhs.cloudKitRecordID
     }
-}
-
-
-static func ==<T: Equatable>(lhs: T, rhs: T) -> Bool {
-    return lhs.
 }

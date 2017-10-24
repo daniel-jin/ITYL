@@ -14,21 +14,50 @@ class CloudKitManager {
     // Declare a public database for CKContainer.default
     let publicDatabase = CKContainer.default().publicCloudDatabase
     
-    // Declare a private database for CKContainer
-    let privateDatabase = CKContainer.default().privateCloudDatabase
+    // MARK: - Fetch methods
+    func fetchRecord(withID recordID: CKRecordID, completion: ((_ record: CKRecord?, _ error: Error?) -> Void)?) {
+        
+        publicDatabase.fetch(withRecordID: recordID) { (record, error) in
+            completion?(record, error)
+        }
+    }
     
-    // MARK: - Fetch method
-    func fetchRecords(ofType type: String, sortDescriptors: [NSSortDescriptor]? = nil, completion: @escaping ([CKRecord]?, Error?) -> Void) {
+    func fetchRecordsWithType(_ type: String,
+                              predicate: NSPredicate = NSPredicate(value: true),
+                              recordFetchedBlock: ((_ record: CKRecord) -> Void)?,
+                              completion: ((_ records: [CKRecord]?, _ error: Error?) -> Void)?) {
         
-        // Create a CKQuery(with type and predicate)
-        let query = CKQuery(recordType: type, predicate: NSPredicate(value: true))
+        var fetchedRecords: [CKRecord] = []
         
-        // Assign sort descriptors for query
-        query.sortDescriptors = sortDescriptors
+        let query = CKQuery(recordType: type, predicate: predicate)
+        let queryOperation = CKQueryOperation(query: query)
         
-        // Perform the query now that it's set up to fetch
-        // TODO: Perform with private as well? When to do what?
-        publicDatabase.perform(query, inZoneWith: nil, completionHandler: completion)
+        let perRecordBlock = { (fetchedRecord: CKRecord) -> Void in
+            fetchedRecords.append(fetchedRecord)
+            recordFetchedBlock?(fetchedRecord)
+        }
+        queryOperation.recordFetchedBlock = perRecordBlock
+        
+        var queryCompletionBlock: (CKQueryCursor?, Error?) -> Void = { (_, _) in }
+        
+        queryCompletionBlock = { (queryCursor: CKQueryCursor?, error: Error?) -> Void in
+            
+            if let queryCursor = queryCursor {
+                // there are more results, go fetch them
+                
+                let continuedQueryOperation = CKQueryOperation(cursor: queryCursor)
+                continuedQueryOperation.recordFetchedBlock = perRecordBlock
+                continuedQueryOperation.queryCompletionBlock = queryCompletionBlock
+                
+                self.publicDatabase.add(continuedQueryOperation)
+                
+            } else {
+                completion?(fetchedRecords, error)
+            }
+        }
+        queryOperation.queryCompletionBlock = queryCompletionBlock
+        
+        self.publicDatabase.add(queryOperation)
     }
     
     // MARK: - Save method
@@ -51,5 +80,5 @@ class CloudKitManager {
         }
     }
     
-    // TODO: - Modify record
+    // TODO: - Modify record?
 }

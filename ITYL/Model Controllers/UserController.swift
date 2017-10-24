@@ -7,16 +7,24 @@
 //
 
 import Foundation
+import CloudKit
 
 class UserController {
-    
-    // MARK: - Properties
     
     // Singleton for model controller
     static let shared = UserController()
     
     // CloudKid Manager instance
     private let cloudKitManager = CloudKitManager()
+    
+    // MARK: - Properties
+    var currentUser: User? {
+        didSet {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Keys.currentUserWasSetNotification, object: nil)
+            }
+        }
+    }
     
     // Model object array
     var users = [User]() {
@@ -31,16 +39,18 @@ class UserController {
     
     // MARK: - CRUD functions
     
+    /*
     // Initialize - fetch/refresh
     init() {
         refreshData()
     }
+ */
     
     // Create
     func create(user: User, completion: @escaping ((Error?) -> Void) = { _ in }) {
         
         // User coputed property on User model to get CKRecord
-        let record = user.cloutKitRecord
+        let record = CKRecord(user: user)
         
         // Then use cloudKitManager save function
         cloudKitManager.save(record) { (error) in
@@ -58,11 +68,12 @@ class UserController {
         }
     }
     
+    /*
     // Fetch/Refresh
     func refreshData(completion: @escaping ((Error?) -> Void) = { _ in }) {
         
         // Call the fetch method from CloudKitManager
-        cloudKitManager.fetchRecords(ofType: Keys.userRecordType) { (records, error) in
+        cloudKitManager.fetchRecordsWithType(ofType: Keys.userRecordType, recordFetchedBlock: <#((CKRecord) -> Void)?#>) { (records, error) in
             
             defer { completion(error) }
             
@@ -77,6 +88,7 @@ class UserController {
             self.users = records.flatMap { User(cloudKitRecord: $0) }
         }
     }
+ */
     
     // TODO: - Update/Modify
     

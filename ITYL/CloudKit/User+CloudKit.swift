@@ -1,5 +1,5 @@
 //
-//  User+CloudKit.swift
+//  Person+CloudKit.swift
 //  ITYL
 //
 //  Created by Daniel Jin on 10/22/17.
@@ -14,21 +14,48 @@ extension User {
     // MARK: - Failable initializer (convert a User CKRecord into a User object)
     init?(cloudKitRecord: CKRecord) {
         // Check for CKRecord's values and record type
-        guard let username = cloudKitRecord[Keys.usernameKey] as? String else { return nil }
+        guard let username = cloudKitRecord[Keys.usernameKey] as? String,
+            let appleUserRef = cloudKitRecord[Keys.appleUserRefKey] as? CKReference,
+            let chatGroupsRef = cloudKitRecord[Keys.chatGroupsRefKey] as? [CKReference] else { return nil }
         
-        // Self init with the checked username value
-        self.init(username: username, recordID: cloudKitRecord.recordID)
-    }
-    
-    // MARK: - Computed property to convert User into CKRecord
-    var cloutKitRecord: CKRecord {
-        
-        // Initialize a CKRecord to return for the computed property
-        let record = CKRecord(recordType: Keys.userRecordType, recordID: self.recordID)
-        
-        // Set the values
-        record.setValue(username, forKey: Keys.usernameKey)
-        
-        return record
+        // Set the object properties with the cloutKidRecord's values
+        self.username = username
+        self.appleUserRef = appleUserRef
+        self.chatGroupsRef = chatGroupsRef
+        self.cloudKitRecordID = cloudKitRecord.recordID
     }
 }
+
+// MARK: - Extension on CKRecord to convert User into CKRecord
+extension CKRecord {
+    convenience init(user: User) {
+        
+        let recordID = user.cloudKitRecordID ?? CKRecordID(recordName: UUID().uuidString)
+        
+        // Init CKRecord
+        self.init(recordType: Keys.userRecordType, recordID: recordID)
+        
+        // Set values for the initialized CKRecord
+        self.setValue(user.username, forKey: Keys.usernameKey)
+        self.setValue(user.appleUserRef, forKey: Keys.appleUserRefKey)
+        self.setValue(user.chatGroupsRef, forKey: Keys.chatGroupsRefKey)
+    }
+}
+
+/* If I implement profile photos for users, then implement below
+extension User {
+    
+    // MARK: - Convert photo into CKAsset
+    var photoCKAsset: CKAsset {
+        
+        guard let photo = self.photo else { return nil }
+        
+        do {
+            let data = UIImagePNGRepresentation(photo)
+            try data?.write(to: tempURL, options: .atomicWrite)
+            let asset = CKAsset(fileURL: tempURL)
+            
+        }
+    }
+}
+ */

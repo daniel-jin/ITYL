@@ -10,14 +10,28 @@ import Foundation
 
 struct Keys {
     
-    // MARK: - Keys for CKRecord/Model
-    static var userRecordType = "User"
-    static var usernameKey = "Username"
-    static var messageRecordType = "Message"
-    static var messageTextKey = "Message"
+    // MARK: - Keys for CloudKit
+    static let appleUserRefKey = "appleUserRef"
+    
+    static let chatGroupsRefKey = "chatGroupsRef"
+    static let chatGroupRefKey = "chatGroupRef"
+    static let chatGroupMembersRefKey = "chatGroupMembersRef"
+    
+    static let userRecordType = "User"
+    static let usernameKey = "Username"
+    
+    static let messageRecordType = "Message"
+    static let messageTextKey = "MessageText"
+    static let sendingUserRefKey = "SendingUser"
+    static let receivingUsersRefKey = "ReceivingUser"
+    
+    static let chatGroupRecordType = "ChatGroup"
+    static let chatGroupTitleKey = "ChatGroupTitle"
+    static let chatGroupMessagesRefKey = "ChatGroupMessages"
     
     // MARK: - Keys for notification center
     static let DidChangeNotification = Notification.Name("DidChangeNotification")
+    static let currentUserWasSetNotification = Notification.Name("currentUserWasSet")
     
     // MARK: - Keys for storyboard items
     
