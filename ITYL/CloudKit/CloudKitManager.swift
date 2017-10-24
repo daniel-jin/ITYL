@@ -64,7 +64,6 @@ class CloudKitManager {
     func save(_ record: CKRecord, completion: @escaping ((Error?) -> Void) = { _ in }) {
         
         // Call save on the database
-        // TODO: Public and private DB?
         publicDatabase.save(record) { (record, error) in
             completion(error)
         }
@@ -74,7 +73,6 @@ class CloudKitManager {
     func deleteRecordWithID(_ recordID: CKRecordID, completion: ((_ recordID: CKRecordID?, _ error: Error?) -> Void)?) {
         
         // Call delete on the database
-        // TODO: Public or private DB?
         publicDatabase.delete(withRecordID: recordID) { (recordID, error) in
             completion?(recordID, error)
         }

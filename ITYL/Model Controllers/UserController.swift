@@ -39,57 +39,64 @@ class UserController {
     
     // MARK: - CRUD functions
     
-    /*
-    // Initialize - fetch/refresh
-    init() {
-        refreshData()
-    }
- */
-    
     // Create
-    func create(user: User, completion: @escaping ((Error?) -> Void) = { _ in }) {
+    func createUserWith(username: String, photoData: Data?, completion: @escaping (_ success: Bool) -> Void) {
         
-        // User coputed property on User model to get CKRecord
-        let record = CKRecord(user: user)
-        
-        // Then use cloudKitManager save function
-        cloudKitManager.save(record) { (error) in
+        // Fetch default Apple 'Users' RecordID
+        CKContainer.default().fetchUserRecordID { (appleUserRecordID, error) in
+            guard let appleUserRecordID = appleUserRecordID else { return }
             
-            defer { completion(error) }
+            let appleUserRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
+            let user = User(username: username, appleUserRef: appleUserRef, chatGroupsRef: [CKReference](), photoData: photoData)
             
-            // Check for error
-            if let error = error {
-                NSLog(error.localizedDescription)
-                return
+            // Get the CKRecord of the user object
+            let userRecord = CKRecord(user: user)
+            
+            // Then use cloudKitManager save function
+            self.cloudKitManager.save(userRecord) { (error) in
+                
+                // Check for error
+                if let error = error {
+                    NSLog(error.localizedDescription)
+                    completion(false)
+                    return
+                }
+                
+                // Set current user and complete
+                self.currentUser = user
+                
+                // Add the User item to the array
+                self.users.insert(user, at: 0)
+                completion(true)
             }
-            
-            // Add the User item to the array
-            self.users.insert(user, at: 0)
         }
     }
     
-    /*
-    // Fetch/Refresh
-    func refreshData(completion: @escaping ((Error?) -> Void) = { _ in }) {
+    // Fetch Current User
+    func fetchCurrentUser(completion: @escaping (_ success: Bool) -> Void = { _ in }) {
         
-        // Call the fetch method from CloudKitManager
-        cloudKitManager.fetchRecordsWithType(ofType: Keys.userRecordType, recordFetchedBlock: <#((CKRecord) -> Void)?#>) { (records, error) in
+        // Fetch default Apple 'Users' RecordID
+        CKContainer.default().fetchUserRecordID { (appleUserRecordID, error) in
             
-            defer { completion(error) }
+            if let error = error { print(error.localizedDescription) }
+            guard let appleUserRecordID = appleUserRecordID else { completion(false); return }
             
-            // Handle error
-            if let error = error {
-                NSLog(error.localizedDescription)
-                return
-            }
+            // Create the CKRef with the Apple 'User's recordID so that we can perform the fetch for the Custom User record
+            let appleUserRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
             
-            // Check for records, then flatMap records to array
-            guard let records = records else { return }
-            self.users = records.flatMap { User(cloudKitRecord: $0) }
+            // Create a predicate with the ref that will go through all the users and filter to return the matching ref., i.e. custom user
+            let predicate = NSPredicate(format: "appleUserRef == $@", appleUserRef)
+            
+            // Fetch the custom user record
+            self.cloudKitManager.fetchRecordsWithType(Keys.usernameKey, predicate: predicate, recordFetchedBlock: nil, completion: { (records, error) in
+                
+                guard let currentUserRecord = records?.first else { completion(false); return }
+                
+                let currentUser = User(cloudKitRecord: currentUserRecord)
+                self.currentUser = currentUser
+                completion(true)
+            })
         }
     }
- */
-    
     // TODO: - Update/Modify
-    
 }

@@ -48,21 +48,3 @@ extension CKRecord {
         self.setValue(asset, forKey: Keys.userPhotoKey)
     }
 }
-
-/* If I implement profile photos for users, then implement below
-extension User {
-    
-    // MARK: - Convert photo into CKAsset
-    var photoCKAsset: CKAsset {
-        
-        guard let photo = self.photo else { return nil }
-        
-        do {
-            let data = UIImagePNGRepresentation(photo)
-            try data?.write(to: tempURL, options: .atomicWrite)
-            let asset = CKAsset(fileURL: tempURL)
-            
-        }
-    }
-}
- */
