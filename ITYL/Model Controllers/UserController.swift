@@ -21,7 +21,7 @@ class UserController {
     var currentUser: User? {
         didSet {
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Keys.currentUserWasSetNotification, object: nil)
+                NotificationCenter.default.post(name: Keys.CurrentUserWasSetNotification, object: nil)
             }
         }
     }
@@ -32,7 +32,7 @@ class UserController {
             DispatchQueue.main.async {
                 // Set up a notification center to broadcast when this array has been loaded/modified
                 let notificationCenter = NotificationCenter.default
-                notificationCenter.post(name: Keys.DidChangeNotification, object: self)
+                notificationCenter.post(name: Keys.UsersArrayChangeNotification, object: self)
             }
         }
     }

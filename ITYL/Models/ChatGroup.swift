@@ -16,7 +16,7 @@ struct ChatGroup {
     
     var members: [User]
 
-    var messages: [Message]
+    var messages: [Message] = []
     
     var cloudKitRecordID: CKRecordID?
     

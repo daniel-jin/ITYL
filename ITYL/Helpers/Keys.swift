@@ -31,10 +31,12 @@ struct Keys {
     static let chatGroupMessagesKey = "ChatGroupMessages"
     
     // MARK: - Keys for notification center
-    static let DidChangeNotification = Notification.Name("DidChangeNotification")
-    static let currentUserWasSetNotification = Notification.Name("currentUserWasSet")
+    static let UsersArrayChangeNotification = Notification.Name("UsersArrayChangeNotification")
+    static let CurrentUserWasSetNotification = Notification.Name("currentUserWasSet")
+    static let ChatGroupsArrayChangeNotification = Notification.Name("ChatGroupsArrayChangeNotification")
+    static let MessagesArrayChangeNotification = Notification.Name("MessagesArrayChangeNotification")
     
     // MARK: - Keys for storyboard items
-    
+    static let toChatGroupMessagesSegue = "toChatGroupMessages"
     
 }

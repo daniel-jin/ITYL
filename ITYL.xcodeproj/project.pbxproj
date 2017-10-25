@@ -24,6 +24,8 @@
 		6A6B3ECB1F9EAB1A0014D3EF /* ChatGroup+CloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B3ECA1F9EAB1A0014D3EF /* ChatGroup+CloudKit.swift */; };
 		6AD2B9B21F9FBB340056D85B /* MessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B11F9FBB340056D85B /* MessageController.swift */; };
 		6AD2B9B41F9FBB3B0056D85B /* ChatGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B31F9FBB3B0056D85B /* ChatGroupController.swift */; };
+		6AD2B9B61FA0E9F60056D85B /* ChatGroupListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B51FA0E9F60056D85B /* ChatGroupListTableViewController.swift */; };
+		6AD2B9B81FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B71FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		6A6B3ECA1F9EAB1A0014D3EF /* ChatGroup+CloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatGroup+CloudKit.swift"; sourceTree = "<group>"; };
 		6AD2B9B11F9FBB340056D85B /* MessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageController.swift; sourceTree = "<group>"; };
 		6AD2B9B31F9FBB3B0056D85B /* ChatGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupController.swift; sourceTree = "<group>"; };
+		6AD2B9B51FA0E9F60056D85B /* ChatGroupListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupListTableViewController.swift; sourceTree = "<group>"; };
+		6AD2B9B71FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupMessagesTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +120,8 @@
 		6A29A6AD1F97EC560075F2CF /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6AD2B9B51FA0E9F60056D85B /* ChatGroupListTableViewController.swift */,
+				6AD2B9B71FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -258,10 +264,12 @@
 				6A6B3EC01F9D57BA0014D3EF /* UserController.swift in Sources */,
 				6AD2B9B41F9FBB3B0056D85B /* ChatGroupController.swift in Sources */,
 				6A29A69A1F97EC360075F2CF /* AppDelegate.swift in Sources */,
+				6AD2B9B61FA0E9F60056D85B /* ChatGroupListTableViewController.swift in Sources */,
 				6A6B3EB71F9D3F3C0014D3EF /* Keys.swift in Sources */,
 				6A6B3EC61F9E65220014D3EF /* Protocols.swift in Sources */,
 				6A6B3EB91F9D51310014D3EF /* User.swift in Sources */,
 				6A6B3EBC1F9D526D0014D3EF /* User+CloudKit.swift in Sources */,
+				6AD2B9B81FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift in Sources */,
 				6A6B3ECB1F9EAB1A0014D3EF /* ChatGroup+CloudKit.swift in Sources */,
 				6AD2B9B21F9FBB340056D85B /* MessageController.swift in Sources */,
 				6A6B3EC91F9EA8EF0014D3EF /* Message+CloudKit.swift in Sources */,

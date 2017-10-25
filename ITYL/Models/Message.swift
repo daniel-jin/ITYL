@@ -14,13 +14,13 @@ struct Message {
     // MARK: - Properties
     let messageText: String
     let sendingUser: CKReference
+    let chatGroupRef: CKReference
     var cloudKitRecordID: CKRecordID?
-    let chatGroup: CKReference
     
     // MARK: - Initializer
-    init(message: String, sendingUser: CKReference, chatGroup: CKReference) {
+    init(message: String, sendingUser: CKReference, chatGroupRef: CKReference) {
         self.messageText = message
         self.sendingUser = sendingUser
-        self.chatGroup = chatGroup
+        self.chatGroupRef = chatGroupRef
     }
 }
