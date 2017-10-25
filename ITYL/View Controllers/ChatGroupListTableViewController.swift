@@ -14,7 +14,12 @@ class ChatGroupListTableViewController: UITableViewController {
         super.viewDidLoad()
 
     }
-
+    
+    // MARK: - IBActions
+    @IBAction func addChatGroupButtonTapped(_ sender: Any) {
+        
+    }
+    
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -22,8 +27,11 @@ class ChatGroupListTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Keys.chatGroupCellIdentifier, for: indexPath)
 
+        let chatGroup = ChatGroupController.shared.chatGroups[indexPath.row]
+        cell.textLabel?.text = chatGroup.chatGroupName
+        
         return cell
     }
 
@@ -42,8 +50,14 @@ class ChatGroupListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toChatGroupMessagesSegue" {
             
+            // Set segue destination as the Messages VC
+            guard let chatGroupDetailVC = segue.destination as? ChatGroupMessagesTableViewController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
             
+            let chatGroup = ChatGroupController.shared.chatGroups[indexPath.row]
             
+            // Send over the chatGroup to the detail VC
+            chatGroupDetailVC.chatGroup = chatGroup
         }
     }
 }

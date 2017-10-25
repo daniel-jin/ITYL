@@ -38,5 +38,6 @@ struct Keys {
     
     // MARK: - Keys for storyboard items
     static let toChatGroupMessagesSegue = "toChatGroupMessages"
+    static let chatGroupCellIdentifier = "chatGroupCell"
     
 }

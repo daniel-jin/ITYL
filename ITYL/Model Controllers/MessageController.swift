@@ -17,19 +17,9 @@ class MessageController {
     // CloudKit Manager instance
     private let cloudKitManager = CloudKitManager()
     
-    // MARK: - Properties
-    // Model object array
-    var messages = [Message]() {
-        didSet {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Keys.MessagesArrayChangeNotification, object: nil)
-            }
-        }
-    }
-    
     // MARK: - CRUD Functions
     // Create
-    func createMessageWith(messageText: String, sendingUser: CKReference, chatGroup: CKReference, completion: @escaping (_ success: Bool) -> Void) {
+    func createMessageWith(messageText: String, chatGroup: ChatGroup, completion: @escaping (_ success: Bool) -> Void) {
         
         // Check for current user
         guard let currentUser = UserController.shared.currentUser else {
@@ -37,12 +27,34 @@ class MessageController {
             completion(false)
             return
         }
+
+        guard let chatGroupCKRecordID = chatGroup.cloudKitRecordID,
+            let sendingUserCKRecordID = currentUser.cloudKitRecordID else {
+            completion(false)
+            return
+        }
         
-        //TODO: - Go over with Spencer on none vs deleteSelf (when a chat group is deleted, should the messages stay? who gets to delete the group?)
-        let chatGroupRef = CKReference(recordID: CKRecordID, action: .deleteSelf)
+        // CKReference for the chat group and sending (current) user
+        let sendingUserRef = CKReference(recordID: sendingUserCKRecordID, action: .deleteSelf)
+        let chatGroupRef = CKReference(recordID: chatGroupCKRecordID, action: .deleteSelf)
         
-        let message = Message(message: messageText, sendingUser: currentUser, chatGroup: <#T##CKReference#>)
+        let message = Message(message: messageText, sendingUser: sendingUserRef, chatGroupRef: chatGroupRef)
+        let messageCKRecord = CKRecord(message: message)
         
+        // Save to CloudKit
+        self.cloudKitManager.save(messageCKRecord) { (error) in
+            
+            // Handle error
+            if let error = error {
+                NSLog("Error saving message to CloudKit")
+                completion(false)
+                return
+            }
+            
+            // Also add the message to the chatGroup that it belongs to
+            chatGroup.messages.insert(message, at: 0)
+            
+            completion(true)
+        }
     }
-    
 }

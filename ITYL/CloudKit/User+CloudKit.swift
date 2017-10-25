@@ -12,7 +12,7 @@ import CloudKit
 extension User {
     
     // MARK: - Failable initializer (convert a User CKRecord into a User object)
-    init?(cloudKitRecord: CKRecord) {
+    convenience init?(cloudKitRecord: CKRecord) {
         // Check for CKRecord's values and record type
         guard let username = cloudKitRecord[Keys.usernameKey] as? String,
             let appleUserRef = cloudKitRecord[Keys.appleUserRefKey] as? CKReference,
@@ -20,13 +20,9 @@ extension User {
             let photoAsset = cloudKitRecord[Keys.userPhotoKey] as? CKAsset else { return nil }
         
         // Set the object properties with the cloutKidRecord's values
-        self.username = username
-        self.appleUserRef = appleUserRef
-        self.chatGroupsRef = chatGroupsRef
-        self.cloudKitRecordID = cloudKitRecord.recordID
-        
         let photoData = try? Data(contentsOf: photoAsset.fileURL)
-        self.photoData = photoData
+        self.init(username: username, appleUserRef: appleUserRef, chatGroupsRef: chatGroupsRef, photoData: photoData)
+        cloudKitRecordID = cloudKitRecord.recordID
     }
 }
 

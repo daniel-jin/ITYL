@@ -9,12 +9,12 @@
 import Foundation
 import CloudKit
 
-struct Message {
+class Message {
     
     // MARK: - Properties
-    let messageText: String
-    let sendingUser: CKReference
-    let chatGroupRef: CKReference
+    var messageText: String
+    var sendingUser: CKReference
+    var chatGroupRef: CKReference
     var cloudKitRecordID: CKRecordID?
     
     // MARK: - Initializer

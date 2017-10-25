@@ -22,7 +22,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="PGd-Q7-Rso">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatGroupCell" id="PGd-Q7-Rso">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PGd-Q7-Rso" id="sx6-5Q-YrU">
@@ -41,7 +41,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Chats" id="ltd-cB-Qxg">
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="Toj-dw-frS"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="R5Y-HQ-vWf"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="R5Y-HQ-vWf">
+                            <connections>
+                                <action selector="addChatGroupButtonTapped:" destination="BRQ-ke-gAl" id="S0P-Sv-per"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHN-l9-rOZ" userLabel="First Responder" sceneMemberID="firstResponder"/>

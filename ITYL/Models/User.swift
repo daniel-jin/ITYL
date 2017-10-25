@@ -10,10 +10,10 @@ import Foundation
 import CloudKit
 import UIKit
 
-struct User {
+class User {
  
     // MARK: - Properties
-    let username: String
+    var username: String
     var cloudKitRecordID: CKRecordID?
     var photoData: Data?
     

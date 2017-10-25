@@ -12,16 +12,14 @@ import CloudKit
 extension Message {
     
     // MARK: - Failable initializer (convert a User CKRecord into a Message object)
-    init?(cloudKitRecord: CKRecord) {
+    convenience init?(cloudKitRecord: CKRecord) {
         // Check for CKRecord's values and record type
         guard let messageText = cloudKitRecord[Keys.messageTextKey] as? String,
             let sendingUser = cloudKitRecord[Keys.sendingUserRefKey] as? CKReference,
             let chatGroupRef = cloudKitRecord[Keys.chatGroupRefKey] as? CKReference else { return nil }
         
         // Set the object properties with the cloutKidRecord's values
-        self.messageText = messageText
-        self.sendingUser = sendingUser
-        self.chatGroupRef = chatGroupRef
+        self.init(message: messageText, sendingUser: sendingUser, chatGroupRef: chatGroupRef)
         self.cloudKitRecordID = cloudKitRecord.recordID
     }
 }

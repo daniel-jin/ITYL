@@ -12,16 +12,14 @@ import CloudKit
 extension ChatGroup {
     
     // MARK: - Failable initializer (convert a User CKRecord into a ChatGroup object)
-    init?(cloudKitRecord: CKRecord) {
+    convenience init?(cloudKitRecord: CKRecord) {
         // Check for CKRecord's values and record type
         guard let chatGroupName = cloudKitRecord[Keys.chatGroupTitleKey] as? String,
             let members = cloudKitRecord[Keys.chatGroupMembersKey] as? [User],
             let messages = cloudKitRecord[Keys.chatGroupMessagesKey] as? [Message] else { return nil }
             
         // Set the object properties with the cloutKidRecord's values
-        self.chatGroupName = chatGroupName
-        self.members = members
-        self.messages = messages
+        self.init(chatGroupName: chatGroupName, members: members, messages: messages)
         self.cloudKitRecordID = cloudKitRecord.recordID
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-struct ChatGroup {
+class ChatGroup {
     
     // MARK: - Properties
     var chatGroupName: String
