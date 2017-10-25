@@ -28,6 +28,7 @@
 		6AD2B9B81FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B71FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift */; };
 		6AD2B9BA1FA10EB90056D85B /* SignUpPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B91FA10EB90056D85B /* SignUpPageViewController.swift */; };
 		6AD2B9BD1FA127540056D85B /* SignUpTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9BC1FA127540056D85B /* SignUpTheme.swift */; };
+		6AD2B9BF1FA138CA0056D85B /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9BE1FA138CA0056D85B /* LaunchScreenViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		6AD2B9B71FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupMessagesTableViewController.swift; sourceTree = "<group>"; };
 		6AD2B9B91FA10EB90056D85B /* SignUpPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPageViewController.swift; sourceTree = "<group>"; };
 		6AD2B9BC1FA127540056D85B /* SignUpTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTheme.swift; sourceTree = "<group>"; };
+		6AD2B9BE1FA138CA0056D85B /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				6AD2B9B51FA0E9F60056D85B /* ChatGroupListTableViewController.swift */,
 				6AD2B9B71FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift */,
 				6AD2B9B91FA10EB90056D85B /* SignUpPageViewController.swift */,
+				6AD2B9BE1FA138CA0056D85B /* LaunchScreenViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				6A6B3EC91F9EA8EF0014D3EF /* Message+CloudKit.swift in Sources */,
 				6A6B3EBE1F9D548D0014D3EF /* CloudKitManager.swift in Sources */,
 				6A6B3EC21F9D6B8B0014D3EF /* Message.swift in Sources */,
+				6AD2B9BF1FA138CA0056D85B /* LaunchScreenViewController.swift in Sources */,
 				6A6B3EC41F9E48BA0014D3EF /* ChatGroup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,7 +20,7 @@ class SignUpPageViewController: UIViewController {
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var bioLabel: UILabel!
+    @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var coverPhotoImageView: UIImageView!
@@ -80,7 +80,7 @@ class SignUpPageViewController: UIViewController {
             submitButton.layer.backgroundColor = UIColor.primaryAppBlue.cgColor
             submitButton.layer.borderWidth = 2
             submitButton.setTitleColor(UIColor.white, for: .normal)
-            submitButton.setTitle("unfollow", for: .normal)
+            submitButton.setTitle("submit", for: .normal)
             
         case .selected:
             
@@ -93,10 +93,31 @@ class SignUpPageViewController: UIViewController {
             submitButton.layer.backgroundColor = nil
             submitButton.layer.borderWidth = 2
             submitButton.setTitleColor(UIColor.primaryAppBlue, for: .normal)
-            submitButton.setTitle("follow", for: .normal)
-            
+            submitButton.setTitle("submit", for: .normal)
         }
         
+        // Register entered username
+        guard let username = usernameTextField.text, !username.isEmpty else { return }
+        
+        UserController.shared.createUserWith(username: username, photoData: nil) { (success) in
+            
+            if !success {
+                DispatchQueue.main.async {
+                    self.presentSimpleAlert(title: "Unable to create an account", message: "Make sure you have network connection, and try again.")
+                }
+            }
+            self.performSegue(withIdentifier: Keys.toChatGroupListsTVCSegue, sender: self)
+        }
     }
-
+    
+    //MARK: - Alert Controller
+    func presentSimpleAlert(title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+        alert.addAction(dismissAction)
+        self.present(alert, animated: true, completion: nil)
+        
+    }
 }

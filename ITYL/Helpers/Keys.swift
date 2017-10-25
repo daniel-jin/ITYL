@@ -37,7 +37,13 @@ struct Keys {
     static let MessagesArrayChangeNotification = Notification.Name("MessagesArrayChangeNotification")
     
     // MARK: - Keys for storyboard items
-    static let toChatGroupMessagesSegue = "toChatGroupMessages"
-    static let chatGroupCellIdentifier = "chatGroupCell"
     
+    // Segues
+    static let toChatGroupMessagesSegue = "toChatGroupMessages"
+    static let toSignUpVCSegue = "toSignUpVC"
+    static let toChatGroupListsTVCSegue = "toChatGroupListTVC"
+    
+    // Cell identifiers
+    static let chatGroupCellIdentifier = "chatGroupCell"
+
 }
