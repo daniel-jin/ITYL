@@ -13,7 +13,7 @@ class LaunchScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(segueToChatGroupListTVC), name: Keys.CurrentUserWasSetNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(segueToChatGroupListTVC), name: Keys.CurrentUserWasSetNotification, object: nil)
         
         UserController.shared.fetchCurrentUser { (success) in
             if success {

@@ -38,9 +38,12 @@ extension CKRecord {
         // Set values for the initialized CKRecord
         self.setValue(user.username, forKey: Keys.usernameKey)
         self.setValue(user.appleUserRef, forKey: Keys.appleUserRefKey)
-        self.setValue(user.chatGroupsRef, forKey: Keys.chatGroupsRefKey)
+        
+        if user.chatGroupsRef.count > 0 {
+            self.setValue(user.chatGroupsRef, forKey: Keys.chatGroupsRefKey)
+        }
         
         let asset = CKAsset(fileURL: user.temporaryPhotoURL)
-        self.setValue(asset, forKey: Keys.userPhotoKey)
+//        self.setValue(asset, forKey: Keys.userPhotoKey)
     }
 }

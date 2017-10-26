@@ -101,12 +101,16 @@ class SignUpPageViewController: UIViewController {
         
         UserController.shared.createUserWith(username: username, photoData: nil) { (success) in
             
+            if success {
+                NSLog("Success!!!")
+                self.performSegue(withIdentifier: Keys.toChatGroupListsTVCSegue, sender: self)
+            }
             if !success {
                 DispatchQueue.main.async {
                     self.presentSimpleAlert(title: "Unable to create an account", message: "Make sure you have network connection, and try again.")
                 }
             }
-            self.performSegue(withIdentifier: Keys.toChatGroupListsTVCSegue, sender: self)
+            return
         }
     }
     

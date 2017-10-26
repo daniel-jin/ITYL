@@ -62,7 +62,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qBZ-HX-jV4">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" id="qBZ-HX-jV4">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qBZ-HX-jV4" id="ZCt-Gf-GNq">
@@ -174,7 +174,6 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="followButtonClicked:" destination="K0z-Oq-N1p" eventType="touchUpInside" id="6Tz-ru-IS8"/>
                                     <action selector="submitButtonClicked:" destination="K0z-Oq-N1p" eventType="touchUpInside" id="wGD-FH-zrv"/>
                                     <segue destination="Vna-yw-AHM" kind="show" identifier="toChatGroupListTVC" id="tdW-ip-OSA"/>
                                 </connections>
@@ -219,6 +218,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Vng-qV-HGD"/>
+        <segue reference="tdW-ip-OSA"/>
     </inferredMetricsTieBreakers>
 </document>

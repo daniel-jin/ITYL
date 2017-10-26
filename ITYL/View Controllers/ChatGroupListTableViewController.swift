@@ -12,7 +12,6 @@ class ChatGroupListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     // MARK: - IBActions

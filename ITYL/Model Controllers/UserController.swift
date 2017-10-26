@@ -85,10 +85,10 @@ class UserController {
             let appleUserRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
             
             // Create a predicate with the ref that will go through all the users and filter to return the matching ref., i.e. custom user
-            let predicate = NSPredicate(format: "appleUserRef == $@", appleUserRef)
+            let predicate = NSPredicate(format: "appleUserRef == %@", appleUserRef)
             
             // Fetch the custom user record
-            self.cloudKitManager.fetchRecordsWithType(Keys.usernameKey, predicate: predicate, recordFetchedBlock: nil, completion: { (records, error) in
+            self.cloudKitManager.fetchRecordsWithType(Keys.userRecordType, predicate: predicate, recordFetchedBlock: nil, completion: { (records, error) in
                 
                 guard let currentUserRecord = records?.first else { completion(false); return }
                 
