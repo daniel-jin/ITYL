@@ -45,7 +45,7 @@ class MessageController {
         self.cloudKitManager.save(messageCKRecord) { (error) in
             
             // Handle error
-            if let error = error {
+            if error != nil {
                 NSLog("Error saving message to CloudKit")
                 completion(false)
                 return

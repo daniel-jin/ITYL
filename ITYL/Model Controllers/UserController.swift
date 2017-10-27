@@ -98,5 +98,37 @@ class UserController {
             })
         }
     }
+    
+    // Search for User
+    func searchForUserWith(username: String, completion: @escaping (_ success: Bool, _ user: User?) -> Void) {
+        
+        // Create a predicate to search for matching usernames
+        let predicate = NSPredicate(format: "Username == %@", username)
+        
+        // Fetch records that match the above predicate for the Uesr record type
+        cloudKitManager.fetchRecordsWithType(Keys.userRecordType, predicate: predicate, recordFetchedBlock: nil) { (records, error) in
+            
+            // Check for errors
+            if error != nil {
+                NSLog("Error fetching a match for the username")
+                completion(false, nil)
+                return
+            }
+            
+            guard let records = records,
+                let userRecord = records.first else {
+                NSLog("Error fetching matching records")
+                completion(false, nil)
+                return
+            }
+            
+            // Convert user CK record to User object
+            let user = User(cloudKitRecord: userRecord)
+            
+            completion(true, user)
+            return
+        }
+    }
+    
     // TODO: - Update/Modify
 }

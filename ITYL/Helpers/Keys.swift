@@ -42,6 +42,8 @@ struct Keys {
     static let toChatGroupMessagesSegue = "toChatGroupMessages"
     static let toSignUpVCSegue = "toSignUpVC"
     static let toChatGroupListsTVCSegue = "toChatGroupListTVC"
+    static let toAddChatGroupVCSegue = "toAddChatGroupVC"
+    static let toInviteVCSegue = "toInviteVC"
     
     // Cell identifiers
     static let chatGroupCellIdentifier = "chatGroupCell"

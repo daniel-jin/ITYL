@@ -107,21 +107,10 @@ class SignUpPageViewController: UIViewController {
             }
             if !success {
                 DispatchQueue.main.async {
-                    self.presentSimpleAlert(title: "Unable to create an account", message: "Make sure you have network connection, and try again.")
+                    Helpers.presentSimpleAlert(title: "Unable to create an account", message: "Make sure you have network connection, and try again.", viewController: self)
                 }
             }
             return
         }
-    }
-    
-    //MARK: - Alert Controller
-    func presentSimpleAlert(title: String, message: String) {
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
-        alert.addAction(dismissAction)
-        self.present(alert, animated: true, completion: nil)
-        
     }
 }
