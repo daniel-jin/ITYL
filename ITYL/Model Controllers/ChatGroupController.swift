@@ -29,7 +29,7 @@ class ChatGroupController {
     
     // MARK: - CRUD Functions
     // Create
-    func createChatGroupWith(name: String, completion: @escaping (_ success: Bool) -> Void) {
+    func createChatGroupWith(name: String, addUser: User, completion: @escaping (_ success: Bool) -> Void) {
         
         // Check for current user
         guard let currentUser = UserController.shared.currentUser else {
@@ -39,7 +39,7 @@ class ChatGroupController {
         }
         
         // Create a chatGroup with the current user as the initial member
-        let chatGroup = ChatGroup(chatGroupName: name, members: [currentUser], messages: [])
+        let chatGroup = ChatGroup(chatGroupName: name, members: [currentUser, addUser], messages: [])
         
         let chatGroupRecord = CKRecord(chatGroup: chatGroup)
         

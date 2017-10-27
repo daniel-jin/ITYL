@@ -122,7 +122,11 @@ class UserController {
                 return
             }
             
-            // Convert user CK record to User object
+            // Complete with the user
+            cloudKitManager.fetchRecord(withID: userRecord.recordID, completion: { (record, error) in
+                <#code#>
+            })
+            
             let user = User(cloudKitRecord: userRecord)
             
             completion(true, user)

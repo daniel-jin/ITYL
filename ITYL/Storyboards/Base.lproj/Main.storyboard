@@ -100,7 +100,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hfe-dg-cSe">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="&quot;Tom &amp; Jerry&quot;" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hfe-dg-cSe">
                                         <rect key="frame" x="0.0" y="28.5" width="312.5" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -145,12 +145,21 @@
                                     <constraint firstItem="vR9-8c-nR4" firstAttribute="width" secondItem="YO3-o5-BG5" secondAttribute="width" id="CPA-0K-cre"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yX5-Ei-2MY">
+                                <rect key="frame" x="139.5" y="402" width="97" height="30"/>
+                                <state key="normal" title="Start Chatting"/>
+                                <connections>
+                                    <action selector="startChattingButtonTapped:" destination="CGn-CD-6aA" eventType="touchUpInside" id="Ce9-ie-vi1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="iQv-8u-AfP" firstAttribute="width" secondItem="eWb-Mq-bfO" secondAttribute="width" multiplier="5/6" id="BRq-Jd-Hzr"/>
                             <constraint firstItem="YO3-o5-BG5" firstAttribute="top" secondItem="iQv-8u-AfP" secondAttribute="bottom" constant="25" id="Mud-0H-OXS"/>
+                            <constraint firstItem="yX5-Ei-2MY" firstAttribute="top" secondItem="YO3-o5-BG5" secondAttribute="bottom" constant="20" id="ea1-s9-FXS"/>
                             <constraint firstItem="YO3-o5-BG5" firstAttribute="width" secondItem="eWb-Mq-bfO" secondAttribute="width" multiplier="5/6" id="enC-bE-5JK"/>
+                            <constraint firstItem="yX5-Ei-2MY" firstAttribute="centerX" secondItem="eWb-Mq-bfO" secondAttribute="centerX" id="jW8-u7-B1C"/>
                             <constraint firstItem="YO3-o5-BG5" firstAttribute="centerX" secondItem="eWb-Mq-bfO" secondAttribute="centerX" id="mfG-nQ-E1M"/>
                             <constraint firstItem="YO3-o5-BG5" firstAttribute="centerY" secondItem="eWb-Mq-bfO" secondAttribute="centerY" id="oYu-GF-omh"/>
                             <constraint firstItem="iQv-8u-AfP" firstAttribute="centerX" secondItem="eWb-Mq-bfO" secondAttribute="centerX" id="pHa-b4-A6f"/>
@@ -159,6 +168,7 @@
                     </view>
                     <connections>
                         <outlet property="chatGroupNameTextField" destination="hfe-dg-cSe" id="tXc-Jh-KJn"/>
+                        <outlet property="startChattingButton" destination="yX5-Ei-2MY" id="Zy5-WX-oJc"/>
                         <outlet property="usernameTextField" destination="vR9-8c-nR4" id="PhI-4E-LjR"/>
                     </connections>
                 </viewController>

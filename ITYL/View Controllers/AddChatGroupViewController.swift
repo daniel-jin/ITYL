@@ -14,6 +14,7 @@ class AddChatGroupViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var chatGroupNameTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var startChattingButton: UIButton!
     
     // MARK: - IBActions
     @IBAction func searchUsernameButtonTapped(_ sender: Any) {
@@ -24,25 +25,50 @@ class AddChatGroupViewController: UIViewController {
             return
         }
         
+        // See if there is a match for the searched username
+        UserController.shared.searchForUserWith(username: username) { (success, user) in
+            
+            if !success {
+                Helpers.presentSimpleAlert(title: "Oops!", message: "There is no username that matches your search. Try again.", viewController: self)
+                return
+            } else {
+                
+                DispatchQueue.main.async {
+                    // Check for chat group name value
+                    guard let chatGroupName = self.chatGroupNameTextField.text,
+                        !chatGroupName.isEmpty else {
+                            Helpers.presentSimpleAlert(title: "Oops!", message: "Please enter a chat group name", viewController: self)
+                            return }
+                    
+                    // Create the chat group
+                    
+                    guard let addToChatGroup = user else {
+                        NSLog("Error adding second user to chat")
+                        return
+                    }
+                    
+                    ChatGroupController.shared.createChatGroupWith(name: chatGroupName, addUser: addToChatGroup, completion: { (success) in
+                        if success {
+                            self.startChattingButton.isHidden = false
+                            return
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    @IBAction func startChattingButtonTapped(_ sender: Any) {
         
         
+        
     }
     
-    guard let chatGroupName = chatGroupNameTextField.text,
-    !chatGroupName.isEmpty else {
-    Helpers.presentSimpleAlert(title: "Oops!", message: "Please enter a chat group name", viewController: self)
-    return }
     
-    ChatGroupController.shared.createChatGroupWith(name: chatGroupName) { (success) in
-    if success {
-    self.performSegue(withIdentifier: Keys.toInviteVCSegue, sender: self)
-    } else {
-    
-    }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        startChattingButton.isHidden = true
     }
     
 
