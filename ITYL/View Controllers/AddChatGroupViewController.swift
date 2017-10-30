@@ -49,8 +49,9 @@ class AddChatGroupViewController: UIViewController {
                     
                     ChatGroupController.shared.createChatGroupWith(name: chatGroupName, addUser: addToChatGroup, completion: { (success) in
                         if success {
-                            self.startChattingButton.isHidden = false
-                            return
+                            DispatchQueue.main.async {
+                                self.startChattingButton.isHidden = false
+                            }
                         }
                     })
                 }

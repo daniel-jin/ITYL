@@ -48,5 +48,4 @@ struct Keys {
     // Cell identifiers
     static let chatGroupCellIdentifier = "chatGroupCell"
     static let messageCellIdentifier = "messageCell"
-
 }

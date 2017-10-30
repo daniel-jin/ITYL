@@ -39,8 +39,7 @@ class ChatGroupController {
         }
         
         // Create a chatGroup with the current user as the initial member
-        let chatGroup = ChatGroup(chatGroupName: name, members: [currentUser, addUser], messages: [])
-        
+        let chatGroup = ChatGroup(chatGroupName: name)
         let chatGroupRecord = CKRecord(chatGroup: chatGroup)
         
         // Save the CKRecord to CloudKit
@@ -53,7 +52,24 @@ class ChatGroupController {
             }
             // Add to local array
             self.chatGroups.insert(chatGroup, at: 0)
-            completion(true)
+            
+            // Modify both users in the chat groups
+            let chatGroupRef = CKReference(record: chatGroupRecord, action: .none)
+            currentUser.chatGroupsRef.append(chatGroupRef)
+            addUser.chatGroupsRef.append(chatGroupRef)
+            
+            let currentUserRecord = CKRecord(user: currentUser)
+            let addUserRecord = CKRecord(user: addUser)
+            
+            self.cloudKitManager.modifyRecords([currentUserRecord, addUserRecord], perRecordCompletion: nil, completion: { (records, error) in
+                
+                if let error = error {
+                    NSLog(error.localizedDescription)
+                    completion(false)
+                    return
+                }
+                completion(true)
+            })
         }
     }
 }

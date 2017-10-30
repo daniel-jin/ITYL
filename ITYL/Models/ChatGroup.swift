@@ -14,17 +14,17 @@ class ChatGroup {
     // MARK: - Properties
     var chatGroupName: String
     
-    var members: [User]
+//    var members: [User]
 
-    var messages: [Message] = []
+//    var messages: [Message] = []
     
     var cloudKitRecordID: CKRecordID?
     
     // MARK: - Initializer
-    init(chatGroupName: String, members: [User], messages: [Message]) {
+    init(chatGroupName: String) {
         
         self.chatGroupName = chatGroupName
-        self.members = members
-        self.messages = messages
+//        self.members = members
+//        self.messages = messages
     }
 }

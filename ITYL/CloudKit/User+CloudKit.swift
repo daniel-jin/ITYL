@@ -16,11 +16,13 @@ extension User {
         // Check for CKRecord's values and record type
         guard let username = cloudKitRecord[Keys.usernameKey] as? String,
             let appleUserRef = cloudKitRecord[Keys.appleUserRefKey] as? CKReference,
-            let chatGroupsRef = cloudKitRecord[Keys.chatGroupsRefKey] as? [CKReference],
-            let photoAsset = cloudKitRecord[Keys.userPhotoKey] as? CKAsset else { return nil }
-        
+            let photoAsset = cloudKitRecord["UserPhoto"] as? CKAsset
+            else { return nil }
+  
+        let chatGroupsRef = cloudKitRecord[Keys.chatGroupsRefKey] as? [CKReference] ?? []
         // Set the object properties with the cloutKidRecord's values
         let photoData = try? Data(contentsOf: photoAsset.fileURL)
+        
         self.init(username: username, appleUserRef: appleUserRef, chatGroupsRef: chatGroupsRef, photoData: photoData)
         cloudKitRecordID = cloudKitRecord.recordID
     }
@@ -44,6 +46,6 @@ extension CKRecord {
         }
         
         let asset = CKAsset(fileURL: user.temporaryPhotoURL)
-//        self.setValue(asset, forKey: Keys.userPhotoKey)
+        self.setValue(asset, forKey: Keys.userPhotoKey)
     }
 }

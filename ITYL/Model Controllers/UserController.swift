@@ -8,6 +8,7 @@
 
 import Foundation
 import CloudKit
+import UIKit
 
 class UserController {
     
@@ -47,6 +48,7 @@ class UserController {
             guard let appleUserRecordID = appleUserRecordID else { return }
             
             let appleUserRef = CKReference(recordID: appleUserRecordID, action: .deleteSelf)
+            
             let user = User(username: username, appleUserRef: appleUserRef, chatGroupsRef: [CKReference](), photoData: photoData)
             
             // Get the CKRecord of the user object
@@ -123,10 +125,6 @@ class UserController {
             }
             
             // Complete with the user
-            cloudKitManager.fetchRecord(withID: userRecord.recordID, completion: { (record, error) in
-                <#code#>
-            })
-            
             let user = User(cloudKitRecord: userRecord)
             
             completion(true, user)

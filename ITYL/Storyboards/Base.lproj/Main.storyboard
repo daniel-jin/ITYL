@@ -234,8 +234,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C8s-gA-PAx">
                                 <rect key="frame" x="0.0" y="198" width="375" height="225"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6dn-XM-KPo">
+                                        <rect key="frame" x="115" y="62" width="145" height="30"/>
+                                        <state key="normal" title="Choose Profile Photo"/>
+                                        <connections>
+                                            <action selector="chooseProfilePhotoButtonTapped:" destination="K0z-Oq-N1p" eventType="touchUpInside" id="tXD-0L-IQ9"/>
+                                        </connections>
+                                    </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="02X-j9-FqQ">
-                                        <rect key="frame" x="126" y="107" width="123" height="30"/>
+                                        <rect key="frame" x="126" y="125" width="123" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -244,11 +251,13 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="225" id="0vg-QR-jJ1"/>
-                                    <constraint firstItem="02X-j9-FqQ" firstAttribute="top" secondItem="C8s-gA-PAx" secondAttribute="top" constant="107" id="cHG-Hk-d2H"/>
+                                    <constraint firstItem="02X-j9-FqQ" firstAttribute="top" secondItem="C8s-gA-PAx" secondAttribute="top" constant="125" id="cHG-Hk-d2H"/>
+                                    <constraint firstItem="6dn-XM-KPo" firstAttribute="centerX" secondItem="C8s-gA-PAx" secondAttribute="centerX" id="qtZ-mJ-hQK"/>
+                                    <constraint firstItem="6dn-XM-KPo" firstAttribute="top" secondItem="C8s-gA-PAx" secondAttribute="top" constant="62" id="tR2-Y5-9qC"/>
                                     <constraint firstItem="02X-j9-FqQ" firstAttribute="centerX" secondItem="C8s-gA-PAx" secondAttribute="centerX" id="vTn-pn-ns5"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SNs-lJ-XaC">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="SNs-lJ-XaC">
                                 <rect key="frame" x="123" y="134" width="128" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="128" id="GFt-aB-6bM"/>
@@ -256,13 +265,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YFJ-wg-ptC">
-                                <rect key="frame" x="104" y="278" width="167" height="24"/>
+                                <rect key="frame" x="104" y="292" width="167" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tOc-PG-fS3">
-                                <rect key="frame" x="123.5" y="341.5" width="128" height="36"/>
+                                <rect key="frame" x="123.5" y="366" width="128" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="128" id="Jf2-b9-ShI"/>
                                     <constraint firstAttribute="height" constant="36" id="Vvx-iB-tsc"/>
@@ -288,9 +297,9 @@
                             <constraint firstItem="TXc-KP-A6J" firstAttribute="centerX" secondItem="ANm-p7-d7k" secondAttribute="centerX" id="bBp-Q7-ob6"/>
                             <constraint firstItem="tOc-PG-fS3" firstAttribute="centerX" secondItem="QZm-rL-cKB" secondAttribute="centerX" id="iud-I6-sYh"/>
                             <constraint firstItem="C8s-gA-PAx" firstAttribute="leading" secondItem="Cic-QS-nnK" secondAttribute="leading" id="m5K-2d-SEP"/>
-                            <constraint firstItem="YFJ-wg-ptC" firstAttribute="top" secondItem="SNs-lJ-XaC" secondAttribute="bottom" constant="16" id="mxH-C4-x9I"/>
+                            <constraint firstItem="YFJ-wg-ptC" firstAttribute="top" secondItem="SNs-lJ-XaC" secondAttribute="bottom" constant="30" id="mxH-C4-x9I"/>
                             <constraint firstItem="TXc-KP-A6J" firstAttribute="height" secondItem="ANm-p7-d7k" secondAttribute="height" id="nsa-61-1Bf"/>
-                            <constraint firstItem="tOc-PG-fS3" firstAttribute="top" secondItem="YFJ-wg-ptC" secondAttribute="bottom" constant="39.5" id="oMq-iP-K5P"/>
+                            <constraint firstItem="tOc-PG-fS3" firstAttribute="top" secondItem="YFJ-wg-ptC" secondAttribute="bottom" constant="50" id="oMq-iP-K5P"/>
                             <constraint firstItem="SNs-lJ-XaC" firstAttribute="bottom" secondItem="ANm-p7-d7k" secondAttribute="bottom" constant="64" id="qPu-Nv-wS2"/>
                             <constraint firstItem="ANm-p7-d7k" firstAttribute="top" secondItem="Cic-QS-nnK" secondAttribute="top" constant="-22" id="yJo-Y9-HUg"/>
                             <constraint firstItem="TXc-KP-A6J" firstAttribute="centerY" secondItem="ANm-p7-d7k" secondAttribute="centerY" id="zSn-WU-uCJ"/>
@@ -312,6 +321,9 @@
             <point key="canvasLocation" x="-116" y="-618"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="defaultPhoto" width="768" height="1024"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="tdW-ip-OSA"/>
     </inferredMetricsTieBreakers>

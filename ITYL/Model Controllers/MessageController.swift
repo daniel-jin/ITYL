@@ -52,7 +52,7 @@ class MessageController {
             }
             
             // Also add the message to the chatGroup that it belongs to
-            chatGroup.messages.insert(message, at: 0)
+//            chatGroup.messages.insert(message, at: 0)
             
             completion(true)
         }

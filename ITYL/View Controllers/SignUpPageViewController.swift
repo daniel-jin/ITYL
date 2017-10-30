@@ -14,9 +14,13 @@ enum ButtonState {
     case notSelected
 }
 
-class SignUpPageViewController: UIViewController {
+class SignUpPageViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // MARK: - Properties
+    let imagePicker = UIImagePickerController()
+    var buttonState: ButtonState = .notSelected
 
-    //MARK: - Properties
+    //MARK: - IBOutlets
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -26,44 +30,15 @@ class SignUpPageViewController: UIViewController {
     @IBOutlet weak var coverPhotoImageView: UIImageView!
     @IBOutlet weak var bodyView: UIView!
     
-    var buttonState: ButtonState = .notSelected
-    
-    //MARK: - View lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setAppearance()
-    }
-    
-    
-    //MARK: - Appearance
-    func setAppearance() {
+    // MARK: - IBActions
+    @IBAction func chooseProfilePhotoButtonTapped(_ sender: UIButton) {
         
-        self.view.backgroundColor = UIColor.backgroundAPpGrey
-        self.bodyView.backgroundColor = .white
-        
-        // set background image
-        coverPhotoImageView.image = UIImage(named: "whiteBackground")
-        coverPhotoImageView.contentMode = .scaleAspectFill
-        coverPhotoImageView.layer.masksToBounds = true
-        backgroundView.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
-        
-        // profile imageView customization
-        profileImageView.image = UIImage(named: "userOne")
-        profileImageView.contentMode = .scaleAspectFill
-        profileImageView.layer.cornerRadius = profileImageView.layer.frame.height / 2
-        profileImageView.layer.masksToBounds = true
-        profileImageView.layer.borderWidth = 4
-        profileImageView.layer.borderColor = UIColor(white: 1.0, alpha: 1.0).cgColor
-        
-        // button customization
-        submitButton.layer.cornerRadius = 8
-        submitButton.layer.masksToBounds = true
-        submitButton.layer.borderColor = UIColor.primaryAppBlue.cgColor
-        submitButton.layer.borderWidth = 2
-        submitButton.setTitleColor(UIColor.primaryAppBlue, for: .normal)
-        submitButton.setTitle("Submit", for: .normal)
-        
+        // Load ImagePicker
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary)!
+        imagePicker.modalPresentationStyle = .popover
+        present(imagePicker, animated: true, completion: nil)
     }
     
     @IBAction func submitButtonClicked(_ sender: Any) {
@@ -99,7 +74,9 @@ class SignUpPageViewController: UIViewController {
         // Register entered username
         guard let username = usernameTextField.text, !username.isEmpty else { return }
         
-        UserController.shared.createUserWith(username: username, photoData: nil) { (success) in
+        guard let profileImage = profileImageView.image else { return }
+        
+        UserController.shared.createUserWith(username: username, photoData: UIImageJPEGRepresentation(profileImage, 1.0)) { (success) in
             
             if success {
                 NSLog("Success!!!")
@@ -112,5 +89,56 @@ class SignUpPageViewController: UIViewController {
             }
             return
         }
+    }
+    
+    //MARK: - Appearance
+    func setAppearance() {
+        
+        self.view.backgroundColor = UIColor.backgroundAPpGrey
+        self.bodyView.backgroundColor = .white
+        
+        // set background image
+        coverPhotoImageView.image = UIImage(named: "whiteBackground")
+        coverPhotoImageView.contentMode = .scaleAspectFill
+        coverPhotoImageView.layer.masksToBounds = true
+        backgroundView.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
+        
+        // profile imageView customization
+        profileImageView.image = #imageLiteral(resourceName: "defaultPhoto")
+        profileImageView.contentMode = .scaleAspectFill
+        profileImageView.layer.cornerRadius = profileImageView.layer.frame.height / 2
+        profileImageView.layer.masksToBounds = true
+        profileImageView.layer.borderWidth = 4
+        profileImageView.layer.borderColor = UIColor(white: 1.0, alpha: 1.0).cgColor
+        
+        // button customization
+        submitButton.layer.cornerRadius = 8
+        submitButton.layer.masksToBounds = true
+        submitButton.layer.borderColor = UIColor.primaryAppBlue.cgColor
+        submitButton.layer.borderWidth = 2
+        submitButton.setTitleColor(UIColor.primaryAppBlue, for: .normal)
+        submitButton.setTitle("Submit", for: .normal)
+        
+    }
+    
+    //MARK: - View lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        imagePicker.delegate = self
+        setAppearance()
+    }
+    
+    //MARK: - Delegates
+    private func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [String : AnyObject])
+    {
+        guard let chosenImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+        profileImageView.contentMode = .scaleAspectFit
+        profileImageView.image = chosenImage
+        dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
 }
