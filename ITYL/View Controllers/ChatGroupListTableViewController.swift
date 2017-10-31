@@ -22,6 +22,7 @@ class ChatGroupListTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("\(ChatGroupController.shared.chatGroups.count) rows in section")
         return ChatGroupController.shared.chatGroups.count
     }
 

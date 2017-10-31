@@ -19,35 +19,19 @@ class ChatGroupController {
     
     // MARK: - Properties
     // Model object array
-    var chatGroups: [ChatGroup] {
-        
-        guard let currentUser = UserController.shared.currentUser else { return [] }
-        
-        // Iterate through the current user's chat group CKReference array and add the chat groups to the current user's local array
-        for CKRef in currentUser.chatGroupsRef {
-            
-            cloudKitManager.fetchRecord(withID: CKRef.recordID, completion: { (CGRecord, error) in
-                
-                if let error = error {
-                    NSLog(error.localizedDescription)
-                    return
-                }
-                
-                guard let CGRecord = CGRecord,
-                    let chatGroup = ChatGroup(cloudKitRecord: CGRecord) else { return }
-                
-                chatGroups.append(chatGroup)
-            })
+    var chatGroups = [ChatGroup]() {
+        didSet {
+            DispatchQueue.main.async {
+                let notificationCenter = NotificationCenter.default
+                NotificationCenter.default.post(name: Keys.ChatGroupsArrayChangeNotification, object: nil)
+            }
         }
-        
-        
-        
-//        didSet {
-//            DispatchQueue.main.async {
-//                NotificationCenter.default.post(name: Keys.ChatGroupsArrayChangeNotification, object: nil)
-//            }
-//        }
     }
+
+    init() {
+        refreshData()
+    }
+    
     
     // MARK: - CRUD Functions
     // Create
@@ -91,6 +75,29 @@ class ChatGroupController {
                     return
                 }
                 completion(true)
+            })
+        }
+    }
+    
+    // Helper functions
+    func refreshData() {
+    
+        guard let currentUser = UserController.shared.currentUser else { return }
+
+        // Iterate through the current user's chat group CKReference array and add the chat groups to the current user's local array
+        for CKRef in currentUser.chatGroupsRef {
+
+        cloudKitManager.fetchRecord(withID: CKRef.recordID, completion: { (CGRecord, error) in
+
+            if let error = error {
+            NSLog(error.localizedDescription)
+            return
+            }
+
+            guard let CGRecord = CGRecord,
+            let chatGroup = ChatGroup(cloudKitRecord: CGRecord) else { return }
+
+            self.chatGroups.append(chatGroup)
             })
         }
     }
