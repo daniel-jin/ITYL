@@ -11,6 +11,9 @@ import CloudKit
 
 class AddChatGroupViewController: UIViewController {
     
+    // Optional property chatGroup - will be assigned if successfully created by user
+    var chatGroup: ChatGroup?
+    
     // MARK: - IBOutlets
     @IBOutlet weak var chatGroupNameTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
@@ -47,10 +50,11 @@ class AddChatGroupViewController: UIViewController {
                         return
                     }
                     
-                    ChatGroupController.shared.createChatGroupWith(name: chatGroupName, addUser: addToChatGroup, completion: { (success) in
+                    ChatGroupController.shared.createChatGroupWith(name: chatGroupName, addUser: addToChatGroup, completion: { (success, chatGroup) in
                         if success {
                             DispatchQueue.main.async {
                                 self.startChattingButton.isHidden = false
+                                self.chatGroup = chatGroup
                             }
                         }
                     })
@@ -61,11 +65,9 @@ class AddChatGroupViewController: UIViewController {
     
     @IBAction func startChattingButtonTapped(_ sender: Any) {
         
+        performSegue(withIdentifier: Keys.toChatGroupMessagesSegue, sender: self)
         
-        
-    }
-    
-    
+    }    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,14 +75,25 @@ class AddChatGroupViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == Keys.toChatGroupMessagesSegue {
+            
+            // Set segue destination as the Messages VC
+            guard let chatGroupDetailVC = segue.destination as? ChatGroupMessagesTableViewController,
+                let chatGroup = chatGroup else {
+                return
+            }
+            
+            // Send over the chatGroup to the detail VC
+            chatGroupDetailVC.chatGroup = chatGroup
+        }
+        
     }
-    */
+ 
 
 }

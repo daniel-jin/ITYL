@@ -12,6 +12,12 @@ class ChatGroupListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: Keys.ChatGroupsArrayChangeNotification, object: nil)
+    }
+    
+    @objc func reloadTable() {
+        tableView.reloadData()
     }
     
     // MARK: - IBActions
@@ -48,7 +54,7 @@ class ChatGroupListTableViewController: UITableViewController {
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toChatGroupMessagesSegue" {
+        if segue.identifier == Keys.toChatGroupMessagesSegue {
             
             // Set segue destination as the Messages VC
             guard let chatGroupDetailVC = segue.destination as? ChatGroupMessagesTableViewController,

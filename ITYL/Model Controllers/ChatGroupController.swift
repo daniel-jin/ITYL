@@ -22,8 +22,7 @@ class ChatGroupController {
     var chatGroups = [ChatGroup]() {
         didSet {
             DispatchQueue.main.async {
-                let notificationCenter = NotificationCenter.default
-                NotificationCenter.default.post(name: Keys.ChatGroupsArrayChangeNotification, object: nil)
+                
             }
         }
     }
@@ -35,12 +34,12 @@ class ChatGroupController {
     
     // MARK: - CRUD Functions
     // Create
-    func createChatGroupWith(name: String, addUser: User, completion: @escaping (_ success: Bool) -> Void) {
+    func createChatGroupWith(name: String, addUser: User, completion: @escaping (_ success: Bool, _ chatGroup: ChatGroup?) -> Void) {
         
         // Check for current user
         guard let currentUser = UserController.shared.currentUser else {
             NSLog("Error fetching current user.")
-            completion(false)
+            completion(false, nil)
             return
         }
         
@@ -53,7 +52,7 @@ class ChatGroupController {
             // Handle error
             if let error = error {
                 NSLog(error.localizedDescription)
-                completion(false)
+                completion(false, nil)
                 return
             }
             // Add to local array
@@ -71,34 +70,48 @@ class ChatGroupController {
                 
                 if let error = error {
                     NSLog(error.localizedDescription)
-                    completion(false)
+                    completion(false, nil)
                     return
                 }
-                completion(true)
+                completion(true, chatGroup)
             })
         }
     }
     
     // Helper functions
-    func refreshData() {
-    
+    func refreshData(completion: @escaping (() -> Void) = {}) {
+        
         guard let currentUser = UserController.shared.currentUser else { return }
-
+        
         // Iterate through the current user's chat group CKReference array and add the chat groups to the current user's local array
+        let group = DispatchGroup()
+        
         for CKRef in currentUser.chatGroupsRef {
-
-        cloudKitManager.fetchRecord(withID: CKRef.recordID, completion: { (CGRecord, error) in
-
-            if let error = error {
-            NSLog(error.localizedDescription)
-            return
-            }
-
-            guard let CGRecord = CGRecord,
-            let chatGroup = ChatGroup(cloudKitRecord: CGRecord) else { return }
-
-            self.chatGroups.append(chatGroup)
+            
+            group.enter()
+            
+            cloudKitManager.fetchRecord(withID: CKRef.recordID, completion: { (CGRecord, error) in
+                
+                if let error = error {
+                    NSLog(error.localizedDescription)
+                    group.leave()
+                    return
+                }
+                
+                guard let CGRecord = CGRecord,
+                    let chatGroup = ChatGroup(cloudKitRecord: CGRecord) else {
+                        group.leave()
+                        return
+                }
+                
+                self.chatGroups.append(chatGroup)
+                group.leave()
             })
+        }
+        
+        group.notify(queue: DispatchQueue.main) {
+            NotificationCenter.default.post(name: Keys.ChatGroupsArrayChangeNotification, object: nil)
+            completion()
         }
     }
 }
