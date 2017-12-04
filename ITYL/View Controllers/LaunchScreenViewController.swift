@@ -9,17 +9,48 @@
 import UIKit
 
 class LaunchScreenViewController: UIViewController {
+    
+    let cloudKitManager = CloudKitManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
 //        NotificationCenter.default.addObserver(self, selector: #selector(segueToChatGroupListTVC), name: Keys.CurrentUserWasSetNotification, object: nil)
         
-        UserController.shared.fetchCurrentUser { (success) in
-            if success {
-                self.segueToChatGroupListTVC()
-            } else { self.segueToSignUpVC() }
+        cloudKitManager.checkCloudKitAvailability { (success) in
+            // iCloud account not logged in
+            if !success {
+                
+                let alertController = UIAlertController (title: "iCloud Login Needed", message: "Please log into your iCloud account in Settings to use this application.", preferredStyle: .alert)
+                
+                let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+                    guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+                        return
+                    }
+                    
+                    if UIApplication.shared.canOpenURL(settingsUrl) {
+                        UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                            print("Settings opened: \(success)") // Prints true
+                        })
+                    }
+                }
+                alertController.addAction(settingsAction)
+                let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+                alertController.addAction(cancelAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+                
+            } else {
+                // iCloud account is logged in - now check if we already ahve a user
+                UserController.shared.fetchCurrentUser { (success) in
+                    if success {
+                        self.segueToChatGroupListTVC()
+                    } else { self.segueToSignUpVC() }
+                }
+            }
         }
+        
+        
     }
 
     //MARK: - Navigation
