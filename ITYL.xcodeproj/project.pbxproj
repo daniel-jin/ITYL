@@ -31,8 +31,8 @@
 		6AD2B9BA1FA10EB90056D85B /* SignUpPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B91FA10EB90056D85B /* SignUpPageViewController.swift */; };
 		6AD2B9BD1FA127540056D85B /* SignUpTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9BC1FA127540056D85B /* SignUpTheme.swift */; };
 		6AD2B9BF1FA138CA0056D85B /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9BE1FA138CA0056D85B /* LaunchScreenViewController.swift */; };
-		6AD807BC1FD5FA0C00D0DF93 /* SentMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD807BB1FD5FA0C00D0DF93 /* SentMessageTableViewCell.swift */; };
-		6AD807BE1FD5FA1700D0DF93 /* ReceivedMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD807BD1FD5FA1700D0DF93 /* ReceivedMessageTableViewCell.swift */; };
+		6AD807C51FD5FEE600D0DF93 /* ReceivedMessagedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD807C41FD5FEE600D0DF93 /* ReceivedMessagedTableViewCell.swift */; };
+		6AD807C71FD5FEF100D0DF93 /* SentMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD807C61FD5FEF100D0DF93 /* SentMessageTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,8 +63,8 @@
 		6AD2B9B91FA10EB90056D85B /* SignUpPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPageViewController.swift; sourceTree = "<group>"; };
 		6AD2B9BC1FA127540056D85B /* SignUpTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTheme.swift; sourceTree = "<group>"; };
 		6AD2B9BE1FA138CA0056D85B /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
-		6AD807BB1FD5FA0C00D0DF93 /* SentMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SentMessageTableViewCell.swift; path = ../../../SentMessageTableViewCell.swift; sourceTree = "<group>"; };
-		6AD807BD1FD5FA1700D0DF93 /* ReceivedMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReceivedMessageTableViewCell.swift; path = ../../../ReceivedMessageTableViewCell.swift; sourceTree = "<group>"; };
+		6AD807C41FD5FEE600D0DF93 /* ReceivedMessagedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedMessagedTableViewCell.swift; sourceTree = "<group>"; };
+		6AD807C61FD5FEF100D0DF93 /* SentMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentMessageTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,8 +102,8 @@
 				6A29A6B21F98044E0075F2CF /* ITYL.entitlements */,
 				6A29A6B11F97EC750075F2CF /* Models */,
 				6A6B3EBA1F9D52600014D3EF /* CloudKit */,
+				6AD807C31FD5FED600D0DF93 /* Custom Cells */,
 				6A29A6B01F97EC6D0075F2CF /* Model Controllers */,
-				6A29A6AF1F97EC630075F2CF /* Custom Cells */,
 				6A29A6AD1F97EC560075F2CF /* View Controllers */,
 				6AD2B9BB1FA127370056D85B /* Design */,
 				6A29A6AC1F97EC500075F2CF /* Storyboards */,
@@ -154,15 +154,6 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		6A29A6AF1F97EC630075F2CF /* Custom Cells */ = {
-			isa = PBXGroup;
-			children = (
-				6AD807BB1FD5FA0C00D0DF93 /* SentMessageTableViewCell.swift */,
-				6AD807BD1FD5FA1700D0DF93 /* ReceivedMessageTableViewCell.swift */,
-			);
-			path = "Custom Cells";
-			sourceTree = "<group>";
-		};
 		6A29A6B01F97EC6D0075F2CF /* Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +199,15 @@
 				6AD2B9BC1FA127540056D85B /* SignUpTheme.swift */,
 			);
 			path = Design;
+			sourceTree = "<group>";
+		};
+		6AD807C31FD5FED600D0DF93 /* Custom Cells */ = {
+			isa = PBXGroup;
+			children = (
+				6AD807C41FD5FEE600D0DF93 /* ReceivedMessagedTableViewCell.swift */,
+				6AD807C61FD5FEF100D0DF93 /* SentMessageTableViewCell.swift */,
+			);
+			path = "Custom Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,10 +290,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AD807BE1FD5FA1700D0DF93 /* ReceivedMessageTableViewCell.swift in Sources */,
 				6A6B3EC01F9D57BA0014D3EF /* UserController.swift in Sources */,
 				6AD2B9B41F9FBB3B0056D85B /* ChatGroupController.swift in Sources */,
 				6A29A69A1F97EC360075F2CF /* AppDelegate.swift in Sources */,
+				6AD807C51FD5FEE600D0DF93 /* ReceivedMessagedTableViewCell.swift in Sources */,
 				6AC0F8DF1FA2601D00773DA9 /* Helper Methods.swift in Sources */,
 				6AD2B9B61FA0E9F60056D85B /* ChatGroupListTableViewController.swift in Sources */,
 				6AD2B9BD1FA127540056D85B /* SignUpTheme.swift in Sources */,
@@ -307,8 +307,8 @@
 				6AD2B9B21F9FBB340056D85B /* MessageController.swift in Sources */,
 				6AD2B9BA1FA10EB90056D85B /* SignUpPageViewController.swift in Sources */,
 				6A6B3EC91F9EA8EF0014D3EF /* Message+CloudKit.swift in Sources */,
+				6AD807C71FD5FEF100D0DF93 /* SentMessageTableViewCell.swift in Sources */,
 				6A6B3EBE1F9D548D0014D3EF /* CloudKitManager.swift in Sources */,
-				6AD807BC1FD5FA0C00D0DF93 /* SentMessageTableViewCell.swift in Sources */,
 				6A6B3EC21F9D6B8B0014D3EF /* Message.swift in Sources */,
 				6AD2B9BF1FA138CA0056D85B /* LaunchScreenViewController.swift in Sources */,
 				6A6B3EC41F9E48BA0014D3EF /* ChatGroup.swift in Sources */,

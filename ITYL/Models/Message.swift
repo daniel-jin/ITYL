@@ -15,6 +15,7 @@ class Message {
     var messageText: String
     var sendingUser: CKReference
     var chatGroupRef: CKReference
+    var sentTime: Date
     var cloudKitRecordID: CKRecordID?
     
     // MARK: - Initializer
@@ -22,5 +23,6 @@ class Message {
         self.messageText = message
         self.sendingUser = sendingUser
         self.chatGroupRef = chatGroupRef
+        self.sentTime = Date()
     }
 }

@@ -49,8 +49,6 @@ class LaunchScreenViewController: UIViewController {
                 }
             }
         }
-        
-        
     }
 
     //MARK: - Navigation
