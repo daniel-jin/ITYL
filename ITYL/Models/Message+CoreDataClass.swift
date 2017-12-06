@@ -1,18 +1,26 @@
 //
-//  Message+CloudKit.swift
+//  Message+CoreDataClass.swift
 //  ITYL
 //
-//  Created by Daniel Jin on 10/23/17.
+//  Created by Daniel Jin on 12/5/17.
 //  Copyright © 2017 Daniel Jin. All rights reserved.
+//
 //
 
 import Foundation
+import CoreData
 import CloudKit
 
-extension Message {
+@objc(Message)
+public class Message: NSManagedObject {
+
+    // MARK: - Properties
+    var sendingUser: CKReference?
+    var chatGroupRef: CKReference?
+    var cloudKitRecordID: CKRecordID?
     
     // MARK: - Failable initializer (convert a User CKRecord into a Message object)
-    convenience init?(cloudKitRecord: CKRecord) {
+    @discardableResult convenience init?(cloudKitRecord: CKRecord) {
         // Check for CKRecord's values and record type
         guard let messageText = cloudKitRecord[Keys.messageTextKey] as? String,
             let sendingUser = cloudKitRecord[Keys.sendingUserRefKey] as? CKReference,
@@ -26,7 +34,7 @@ extension Message {
 
 // MARK: - Extension on CKRecord to convert Message into CKRecord
 extension CKRecord {
-    convenience init(message: Message) {
+    convenience init?(message: Message) {
         
         let recordID = message.cloudKitRecordID ?? CKRecordID(recordName: UUID().uuidString)
         

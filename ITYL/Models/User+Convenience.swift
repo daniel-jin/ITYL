@@ -1,34 +1,26 @@
 //
-//  User.swift
+//  User+Convenience.swift
 //  ITYL
 //
-//  Created by Daniel Jin on 10/22/17.
+//  Created by Daniel Jin on 12/5/17.
 //  Copyright © 2017 Daniel Jin. All rights reserved.
 //
 
 import Foundation
+import CoreData
 import CloudKit
-import UIKit
 
-class User {
- 
-    // MARK: - Properties
-    var username: String
-    var cloudKitRecordID: CKRecordID?
-    var photoData: Data?
+extension User {
     
-    // Reference to the default Apple Users record ID
-    var appleUserRef: CKReference
-    
-    // Reference to the chatGroups that the user belongs to
-    var chatGroupsRef: [CKReference] = []
- 
     // MARK: - Initializer
-    init(username: String, appleUserRef: CKReference, chatGroupsRef: [CKReference], photoData: Data?) {
+    @discardableResult convenience init(username: String, appleUserRef: CKReference, chatGroupsRef: [CKReference], photoData: Data?, context: NSManagedObjectContext = CoreDataStack.context) {
+        
+        self.init(context: context)
+        
         self.username = username
         self.appleUserRef = appleUserRef
         self.chatGroupsRef = chatGroupsRef
-        self.photoData = photoData
+        self.photoData = photoData as NSData?
     }
     
     // MARK: - Temp URL for photo
@@ -44,13 +36,5 @@ class User {
         
         return fileURL
     }
-
-}
-
-// Conform to Equatable for ability to compare User objects
-extension User: Equatable {
-    // Compare user objects by checking user's CK Record ID
-    static func ==(lhs: User, rhs: User) -> Bool {
-        return lhs.cloudKitRecordID == rhs.cloudKitRecordID
-    }
+    
 }

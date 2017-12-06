@@ -1,24 +1,34 @@
 //
-//  Person+CloudKit.swift
+//  User+CoreDataClass.swift
 //  ITYL
 //
-//  Created by Daniel Jin on 10/22/17.
+//  Created by Daniel Jin on 12/5/17.
 //  Copyright © 2017 Daniel Jin. All rights reserved.
+//
 //
 
 import Foundation
+import CoreData
 import CloudKit
 
-extension User {
+@objc(User)
+public class User: NSManagedObject {
+
+    var cloudKitRecordID: CKRecordID?
+    // Reference to the default Apple Users record ID
+    var appleUserRef: CKReference?
+    
+    // Reference to the chatGroups that the user belongs to
+    var chatGroupsRef: [CKReference] = []
     
     // MARK: - Failable initializer (convert a User CKRecord into a User object)
-    convenience init?(cloudKitRecord: CKRecord) {
+    @discardableResult convenience init?(cloudKitRecord: CKRecord) {
         // Check for CKRecord's values and record type
         guard let username = cloudKitRecord[Keys.usernameKey] as? String,
             let appleUserRef = cloudKitRecord[Keys.appleUserRefKey] as? CKReference,
             let photoAsset = cloudKitRecord["UserPhoto"] as? CKAsset
             else { return nil }
-  
+        
         let chatGroupsRef = cloudKitRecord[Keys.chatGroupsRefKey] as? [CKReference] ?? []
         // Set the object properties with the cloutKidRecord's values
         let photoData = try? Data(contentsOf: photoAsset.fileURL)
@@ -30,7 +40,7 @@ extension User {
 
 // MARK: - Extension on CKRecord to convert User into CKRecord
 extension CKRecord {
-    convenience init(user: User) {
+    convenience init?(user: User) {
         
         let recordID = user.cloudKitRecordID ?? CKRecordID(recordName: UUID().uuidString)
         
@@ -49,3 +59,12 @@ extension CKRecord {
         self.setValue(asset, forKey: Keys.userPhotoKey)
     }
 }
+
+// Conform to Equatable for ability to compare User objects
+extension User {
+    // Compare user objects by checking user's CK Record ID
+    static func ==(lhs: User, rhs: User) -> Bool {
+        return lhs.cloudKitRecordID == rhs.cloudKitRecordID
+    }
+}
+

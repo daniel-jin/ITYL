@@ -44,8 +44,11 @@ class ChatGroupController {
         }
         
         // Create a chatGroup with the current user as the initial member
-        let chatGroup = ChatGroup(chatGroupName: name)
-        let chatGroupRecord = CKRecord(chatGroup: chatGroup)
+        let chatGroup = ChatGroup(name: name)
+        guard let chatGroupRecord = CKRecord(chatGroup: chatGroup) else {
+            completion(false, nil)
+            return
+        }
         
         // Save the CKRecord to CloudKit
         self.cloudKitManager.save(chatGroupRecord) { (error) in
@@ -63,8 +66,11 @@ class ChatGroupController {
             currentUser.chatGroupsRef.append(chatGroupRef)
             addUser.chatGroupsRef.append(chatGroupRef)
             
-            let currentUserRecord = CKRecord(user: currentUser)
-            let addUserRecord = CKRecord(user: addUser)
+            guard let currentUserRecord = CKRecord(user: currentUser),
+                let addUserRecord = CKRecord(user: addUser) else {
+                    completion(false, nil)
+                    return
+            }
             
             self.cloudKitManager.modifyRecords([currentUserRecord, addUserRecord], perRecordCompletion: nil, completion: { (records, error) in
                 

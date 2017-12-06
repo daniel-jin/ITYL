@@ -18,6 +18,8 @@ class UserController {
     // CloudKid Manager instance
     private let cloudKitManager = CloudKitManager()
     
+    var isUserLoggedIntoiCloud = false
+    
     // MARK: - Properties
     var currentUser: User? {
         didSet {
@@ -52,7 +54,7 @@ class UserController {
             let user = User(username: username, appleUserRef: appleUserRef, chatGroupsRef: [CKReference](), photoData: photoData)
             
             // Get the CKRecord of the user object
-            let userRecord = CKRecord(user: user)
+            guard let userRecord = CKRecord(user: user) else { return }
             
             // Then use cloudKitManager save function
             self.cloudKitManager.save(userRecord) { (error) in

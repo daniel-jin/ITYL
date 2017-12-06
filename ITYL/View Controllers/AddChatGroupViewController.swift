@@ -15,7 +15,6 @@ class AddChatGroupViewController: UIViewController {
     var chatGroup: ChatGroup?
     
     // MARK: - IBOutlets
-    @IBOutlet weak var chatGroupNameTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var startChattingButton: UIButton!
     
@@ -37,20 +36,12 @@ class AddChatGroupViewController: UIViewController {
             } else {
                 
                 DispatchQueue.main.async {
-                    // Check for chat group name value
-                    guard let chatGroupName = self.chatGroupNameTextField.text,
-                        !chatGroupName.isEmpty else {
-                            Helpers.presentSimpleAlert(title: "Oops!", message: "Please enter a chat group name", viewController: self)
-                            return }
-                    
                     // Create the chat group
-                    
                     guard let addToChatGroup = user else {
                         NSLog("Error adding second user to chat")
                         return
                     }
-                    
-                    ChatGroupController.shared.createChatGroupWith(name: chatGroupName, addUser: addToChatGroup, completion: { (success, chatGroup) in
+                    ChatGroupController.shared.createChatGroupWith(name: username, addUser: addToChatGroup, completion: { (success, chatGroup) in
                         if success {
                             DispatchQueue.main.async {
                                 self.startChattingButton.isHidden = false

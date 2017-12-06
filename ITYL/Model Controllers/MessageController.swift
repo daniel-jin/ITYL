@@ -39,7 +39,10 @@ class MessageController {
         let chatGroupRef = CKReference(recordID: chatGroupCKRecordID, action: .deleteSelf)
         
         let message = Message(message: messageText, sendingUser: sendingUserRef, chatGroupRef: chatGroupRef)
-        let messageCKRecord = CKRecord(message: message)
+        guard let messageCKRecord = CKRecord(message: message) else {
+            completion(false)
+            return
+        }
         
         // Save to CloudKit
         self.cloudKitManager.save(messageCKRecord) { (error) in
