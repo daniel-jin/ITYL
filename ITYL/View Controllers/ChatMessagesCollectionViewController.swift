@@ -82,6 +82,9 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        collectionView?.backgroundColor = UIColor.white
+        collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         
         // MARK: - Message input bar at bottom of screen
         view.addSubview(messageInputContainerView)
@@ -296,6 +299,8 @@ class ChatMessageCell: BaseCell {
     override func setupViews() {
         
         super.setupViews()
+        
+        backgroundColor = UIColor.white
         
         addSubview(textBubbleView)
         addSubview(messageTextView)

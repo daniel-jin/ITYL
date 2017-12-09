@@ -24,8 +24,10 @@ public class Message: NSManagedObject {
         // Check for CKRecord's values and record type
         guard let messageText = cloudKitRecord[Keys.messageTextKey] as? String,
             let sendingUser = cloudKitRecord[Keys.sendingUserRefKey] as? CKReference,
-            let chatGroupRef = cloudKitRecord[Keys.chatGroupRefKey] as? CKReference,
-            let sentByUser = cloudKitRecord["MessageSender"] as? User else { return nil }
+            let chatGroupRef = cloudKitRecord[Keys.chatGroupRefKey] as? CKReference else { return nil }
+        
+        let userRecord = CKRecord(recordType: Keys.userRecordType, recordID: sendingUser.recordID)
+        guard let sentByUser = User(cloudKitRecord: userRecord) else { return nil }
         
         // Set the object properties with the cloutKidRecord's values
         self.init(message: messageText, sentBy: sentByUser, sendingUser: sendingUser, chatGroupRef: chatGroupRef, chatGroup: chatGroup)
@@ -46,6 +48,5 @@ extension CKRecord {
         self.setValue(message.messageText, forKey: Keys.messageTextKey)
         self.setValue(message.sendingUser, forKey: Keys.sendingUserRefKey)
         self.setValue(message.chatGroupRef, forKey: Keys.chatGroupRefKey)
-        self.setValue(message.sentBy, forKey: "MessageSender")
     }
 }

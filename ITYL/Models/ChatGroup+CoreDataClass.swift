@@ -20,8 +20,23 @@ public class ChatGroup: NSManagedObject {
     @discardableResult convenience init?(cloudKitRecord: CKRecord) {
         // Check for CKRecord's values and record type
         guard let chatGroupName = cloudKitRecord[Keys.chatGroupTitleKey] as? String,
-            let users = cloudKitRecord[Keys.chatGroupMembersKey] as? NSSet,
-            let chatGroupUsers = Array(users) as? [User] else { return nil }
+            let users = cloudKitRecord[Keys.chatGroupMembersKey] as? [CKReference] else { return nil }
+        
+        var chatGroupUsers = [User]()
+        
+        for CKRef in users {
+            CloudKitManager().fetchRecord(withID: CKRef.recordID, completion: { (record, error) in
+                if let error = error {
+                    NSLog("Error fetching user with provided Record ID: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let record = record {
+                    guard let user = User(cloudKitRecord: record) else { return }
+                    chatGroupUsers.append(user)
+                }
+            })
+        }
         
         // Set the object properties with the cloutKidRecord's values
         self.init(name: chatGroupName, users: chatGroupUsers)
@@ -51,7 +66,12 @@ extension CKRecord {
         
         ChatGroupController.shared.saveToPersistantStore()
         
-        self.setValue(chatGroup.users, forKey: Keys.chatGroupMembersKey)
-        //        self.setValue(chatGroup.messages, forKey: Keys.chatGroupMessagesKey)
+        // Convert users NSSet to array of Users
+        guard let chatGroupUsers = chatGroup.users,
+            let usersArray = Array(chatGroupUsers) as? [User],
+            let userRecordsArray = usersArray.map({ CKRecord(user: $0) }) as? [CKRecord],
+            let usersCKRefArray = userRecordsArray.map({ CKReference(record: $0, action: .none) }) as? [CKReference] else { return }
+
+        self.setValue(usersCKRefArray, forKey: Keys.chatGroupMembersKey)
     }
 }
