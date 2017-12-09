@@ -8,6 +8,7 @@
 
 import Foundation
 import CloudKit
+import CoreData
 
 class ChatGroupController {
     
@@ -19,15 +20,26 @@ class ChatGroupController {
     
     // MARK: - Properties
     // Model object array
-    var chatGroups = [ChatGroup]() {
-        didSet {
-            DispatchQueue.main.async {
-                
-            }
+    var chatGroups: [ChatGroup] {
+        
+        // Fetch chatgroups from Core Data
+        let request: NSFetchRequest<ChatGroup> = ChatGroup.fetchRequest()
+        
+        //request.sortDescriptors = [NSSortDescriptor(key: <#T##String?#>, ascending: true)]
+        
+        // Perform fetch - handle Errors
+        do {
+            return try CoreDataStack.context.fetch(request)
+        } catch {
+            NSLog("There was an error configuring the fetched results. \(error.localizedDescription)")
+            return []
         }
+    
     }
 
     init() {
+        
+        // Check/fetch new chatgroups from CloudKit
         refreshData()
     }
     
@@ -44,7 +56,11 @@ class ChatGroupController {
         }
         
         // Create a chatGroup with the current user as the initial member
-        let chatGroup = ChatGroup(name: name)
+        let chatGroup = ChatGroup(name: name, users: [currentUser, addUser])
+        
+        // Save to Core Data first
+        self.saveToPersistantStore()
+        
         guard let chatGroupRecord = CKRecord(chatGroup: chatGroup) else {
             completion(false, nil)
             return
@@ -58,8 +74,8 @@ class ChatGroupController {
                 completion(false, nil)
                 return
             }
+            
             // Add to local array
-            self.chatGroups.insert(chatGroup, at: 0)
             
             // Modify both users in the chat groups
             let chatGroupRef = CKReference(record: chatGroupRecord, action: .none)
@@ -105,18 +121,18 @@ class ChatGroupController {
                 }
                 
                 guard let CGRecord = CGRecord,
-                    let chatGroup = ChatGroup(cloudKitRecord: CGRecord) else {
+                    let _ = ChatGroup(cloudKitRecord: CGRecord) else {
                         group.leave()
                         return
                 }
                 
-                self.chatGroups.append(chatGroup)
                 group.leave()
             })
         }
         
         group.notify(queue: DispatchQueue.main) {
             NotificationCenter.default.post(name: Keys.ChatGroupsArrayChangeNotification, object: nil)
+            self.saveToPersistantStore()
             completion()
         }
     }

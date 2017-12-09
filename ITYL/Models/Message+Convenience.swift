@@ -13,13 +13,15 @@ import CloudKit
 extension Message {
     
     // MARK: - Initializer
-    @discardableResult convenience init(message: String, sendingUser: CKReference, chatGroupRef: CKReference, context: NSManagedObjectContext = CoreDataStack.context) {
+    @discardableResult convenience init(message: String, sentBy: User, sendingUser: CKReference, chatGroupRef: CKReference, chatGroup: ChatGroup, context: NSManagedObjectContext = CoreDataStack.context) {
         
         self.init(context: context)
         
         self.messageText = message
+        self.sentBy = sentBy
         self.sendingUser = sendingUser
         self.chatGroupRef = chatGroupRef
+        self.chatGroup = chatGroup
         self.deliverTime = NSDate()
     }
     

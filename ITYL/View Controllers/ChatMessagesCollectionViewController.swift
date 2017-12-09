@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+import CloudKit
 
 private let reuseIdentifier = "Cell"
 
@@ -14,7 +16,9 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
     
     private let cellId = "cellId"
     
-    var messages: [Message]?
+    let cloudKitManager = CloudKitManager()
+    
+    var chatGroup: ChatGroup?
     
     let messageInputContainerView: UIView = {
         let view = UIView()
@@ -30,24 +34,59 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         return textField
     }()
     
-    let sendButton: UIButton = {
+    lazy var sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
         let titleColor = UIColor(displayP3Red: 0, green: 137/255.0, blue: 249/255.0, alpha: 1)
         button.setTitleColor(titleColor, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         
         return button
     }()
+    
+    @objc func sendButtonTapped() {
+        print("handle send text")
+        
+        guard let chatGroup = chatGroup,
+            let text = inputTextField.text,
+            !text.isEmpty else { return }
+        
+        MessageController.shared.createMessageWith(messageText: text, chatGroup: chatGroup) { (success, message) in
+            if !success {
+                NSLog("Saving message was unsuccessful.")
+                return
+            } else {
+                
+                guard let message = message else { return }
+                
+                chatGroup.addToMessages(message)
+                
+                var item = 0
+                
+                if let messages = chatGroup.messages {
+                    if messages.count > 0 {
+                        item = messages.count - 1
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    let insertionIndexPath = IndexPath(item: item, section: 0)
+                    self.collectionView?.insertItems(at: [insertionIndexPath])
+                }
+            }
+        }
+    }
     
     var bottomConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // MARK: - Message input bar at bottom of screen
         view.addSubview(messageInputContainerView)
         view.addConstraintsWithFormat(format: "H:|-8-[v0]|", views: messageInputContainerView)
-        view.addConstraintsWithFormat(format: "V:|[v0(48)]", views: messageInputContainerView)
+        view.addConstraintsWithFormat(format: "V:[v0(48)]", views: messageInputContainerView)
         
         bottomConstraint = NSLayoutConstraint(item: messageInputContainerView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
         
@@ -57,12 +96,49 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotificiation), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotificiation), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
+        // MARK: - Fetch messages for the chatgroup in core data & check/fetch messagse from CloudKit
+        // Fetch chatgroups from Core Data
+        guard let chatGroup = chatGroup else { return }
+        
+        // Check/fetch messages from CloudKit
+        guard let chatGroupCKRef = chatGroup.cloudKitRecordID else { return }
+    
+        let chatGroupRefPredicate = NSPredicate(format: "chatGroupRef == %@", chatGroupCKRef)
+        
+        var predicate: NSCompoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate])
+        
+        if let messages = chatGroup.messages,
+            let messagesArray = Array(messages) as? [Message],
+            let lastMessage = messagesArray.last,
+            let lastMsgTime = lastMessage.deliverTime {
+        
+            let predicate2 = NSPredicate(format: "creationDate > %@", lastMsgTime)
+            
+            predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate, predicate2])
+        }
+        
+        cloudKitManager.fetchRecordsWithType(Keys.messageRecordType, predicate: predicate, recordFetchedBlock: nil) { (ckMessages, error) in
+            if let error = error {
+                NSLog("Error fetching messages from CloudKit: \(error.localizedDescription)")
+                return
+            }
+            
+            if let ckMessages = ckMessages {
+                
+                for ckMessage in ckMessages {
+                    guard let msg = Message(cloudKitRecord: ckMessage, chatGroup: chatGroup) else { return }
+                }
+                
+                ChatGroupController.shared.saveToPersistantStore()
+            }
+        }
+        
     }
     
     @objc func handleKeyboardNotificiation(notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
         let keyboardFrame = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect
-        print(keyboardFrame)
         
         let isKeyboardShowing = notification.name == Notification.Name.UIKeyboardWillShow
         
@@ -89,21 +165,149 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
     
     func setupInputComponents() {
         
-        let topBorderBView = UIView()
-        topBorderBView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
+        let topBorderView = UIView()
+        topBorderView.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
         
         messageInputContainerView.addSubview(inputTextField)
         messageInputContainerView.addSubview(sendButton)
-        messageInputContainerView.addSubview(topBorderBView)
+        messageInputContainerView.addSubview(topBorderView)
         
         messageInputContainerView.addConstraintsWithFormat(format: "H:|-8-[v0][v1(60)]|", views: inputTextField, sendButton)
+        
         messageInputContainerView.addConstraintsWithFormat(format: "V:|[v0]|", views: inputTextField)
         messageInputContainerView.addConstraintsWithFormat(format: "V:|[v0]|", views: sendButton)
         
-        messageInputContainerView.addConstraintsWithFormat(format: "H:|[v0]|", views: topBorderBView)
-        messageInputContainerView.addConstraintsWithFormat(format: "V:|[v0(0.5)]", views: topBorderBView)
+        messageInputContainerView.addConstraintsWithFormat(format: "H:|[v0]|", views: topBorderView)
+        messageInputContainerView.addConstraintsWithFormat(format: "V:|[v0(0.5)]", views: topBorderView)
 
 
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return chatGroup?.messages?.count ?? 0
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatMessageCell
+        
+        guard let message = chatGroup?.messages?.object(at: indexPath.row) as? Message,
+            let messageSender = message.sentBy,
+            let senderProfilePhotoData = messageSender.photoData as Data? else { return UICollectionViewCell() }
+        
+        cell.messageTextView.text = message.messageText
+        
+        let profileImage = UIImage(data: senderProfilePhotoData)
+        
+        if let messageText = message.messageText {
+            
+            cell.profileImageView.image = profileImage
+            let size = CGSize(width: 250, height: 1000)
+            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+            
+            if messageSender == UserController.shared.currentUser {
+                // Message is outgoing, not incoming
+                cell.messageTextView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 16 - 16 - 8 , y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height+20)
+                cell.textBubbleView.frame = CGRect(x: view.frame.width-estimatedFrame.width - 16 - 8 - 16 - 10, y: -4, width: estimatedFrame.width + 16 + 8 + 10, height: estimatedFrame.height+20+6)
+                cell.profileImageView.isHidden = true
+                cell.bubbleImageView.image = ChatMessageCell.blueBubbleImage
+                cell.bubbleImageView.tintColor = UIColor(red: 0, green: 137/255.0, blue: 249/255.0, alpha: 1)
+                cell.messageTextView.textColor = UIColor.white
+            }
+            else {
+                
+                // Message is incoming, not outgoing
+                cell.messageTextView.frame = CGRect(x: 48+8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height+20)
+                cell.textBubbleView.frame = CGRect(x: 48 - 10, y: -4, width: estimatedFrame.width + 16 + 8 + 16, height: estimatedFrame.height+20+6)
+                cell.profileImageView.isHidden = false
+                cell.bubbleImageView.image = ChatMessageCell.grayBubbleImage
+                cell.bubbleImageView.tintColor = UIColor(white: 0.95, alpha: 1)
+                cell.messageTextView.textColor = UIColor.black
+                
+            }
+            
+        }
+        
+        
+//        guard let chatGroup = chatGroup,
+//            let chatGroupUsers = chatGroup.users,
+//            let chatGroupUsersArray = Array(chatGroupUsers) as? [User] else {
+//                return UICollectionViewCell()
+//        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        guard let message = chatGroup?.messages?.object(at: indexPath.row) as? Message else { return CGSize(width: view.frame.width, height: 100) }
+        
+        guard let messageText = message.messageText else { return CGSize(width: view.frame.width, height: 100) }
+        
+        let size = CGSize(width: 250, height: 1000)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+        
+        return CGSize(width: view.frame.width, height: estimatedFrame.height + 20)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(8, 0, 0, 0)
+    }
+    
+}
+
+class ChatMessageCell: BaseCell {
+    
+    let messageTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.systemFont(ofSize: 18)
+        textView.text = "Sample Message"
+        textView.backgroundColor = UIColor.clear
+        return textView
+    }()
+    
+    let textBubbleView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 15
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 15
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    static let grayBubbleImage = UIImage(named: "bubble_gray")!.resizableImage(withCapInsets: UIEdgeInsetsMake(22, 26, 22, 26)).withRenderingMode(.alwaysTemplate)
+    static let blueBubbleImage = UIImage(named: "bubble_blue")!.resizableImage(withCapInsets: UIEdgeInsetsMake(22, 26, 22, 26)).withRenderingMode(.alwaysTemplate)
+    
+    let bubbleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = ChatMessageCell.grayBubbleImage
+        imageView.tintColor = UIColor(white: 0.90, alpha: 1)
+        return imageView
+    }()
+    
+    override func setupViews() {
+        
+        super.setupViews()
+        
+        addSubview(textBubbleView)
+        addSubview(messageTextView)
+        addSubview(profileImageView)
+        
+        addConstraintsWithFormat(format: "H:|-8-[v0(30)]", views: profileImageView)
+        addConstraintsWithFormat(format: "V:[v0(30)]|", views: profileImageView)
+        
+        textBubbleView.addSubview(bubbleImageView)
+        textBubbleView.addConstraintsWithFormat(format: "H:|[v0]|", views: bubbleImageView)
+        textBubbleView.addConstraintsWithFormat(format: "V:|[v0]|", views: bubbleImageView)
+        
     }
     
 }

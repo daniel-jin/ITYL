@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import CloudKit
+import UIKit
 
 extension UserController {
     
@@ -26,7 +27,7 @@ extension UserController {
     
     // MARK: - CRUD Functions
     // Create
-    func add(user: User, completion: @escaping () -> Void = {}) {
+    func add(username: String, photoData: UIImage, completion: @escaping () -> Void = {}) {
         
         saveToPersistantStore()
         

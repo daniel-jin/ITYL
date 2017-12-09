@@ -19,11 +19,16 @@ public class ChatGroup: NSManagedObject {
     // MARK: - Failable initializer (convert a User CKRecord into a ChatGroup object)
     @discardableResult convenience init?(cloudKitRecord: CKRecord) {
         // Check for CKRecord's values and record type
-        guard let chatGroupName = cloudKitRecord[Keys.chatGroupTitleKey] as? String else { return nil }
+        guard let chatGroupName = cloudKitRecord[Keys.chatGroupTitleKey] as? String,
+            let users = cloudKitRecord[Keys.chatGroupMembersKey] as? NSSet,
+            let chatGroupUsers = Array(users) as? [User] else { return nil }
         
         // Set the object properties with the cloutKidRecord's values
-        self.init(name: chatGroupName)
+        self.init(name: chatGroupName, users: chatGroupUsers)
+        self.recordIDString = cloudKitRecord.recordID.recordName
         self.cloudKitRecordID = cloudKitRecord.recordID
+        
+        
     }
 }
 
@@ -31,14 +36,22 @@ public class ChatGroup: NSManagedObject {
 extension CKRecord {
     convenience init?(chatGroup: ChatGroup) {
         
-        let recordID = chatGroup.cloudKitRecordID ?? CKRecordID(recordName: UUID().uuidString)
+        let recordName = UUID().uuidString
+        
+        let recordID = chatGroup.cloudKitRecordID ?? CKRecordID(recordName: recordName)
         
         // Init CKRecord
         self.init(recordType: Keys.chatGroupRecordType, recordID: recordID)
         
         // Set values for the initialized CKRecord
         self.setValue(chatGroup.name, forKey: Keys.chatGroupTitleKey)
-        //        self.setValue(chatGroup.members, forKey: Keys.chatGroupMembersKey)
+    
+        chatGroup.cloudKitRecordID = recordID
+        chatGroup.recordIDString = recordName
+        
+        ChatGroupController.shared.saveToPersistantStore()
+        
+        self.setValue(chatGroup.users, forKey: Keys.chatGroupMembersKey)
         //        self.setValue(chatGroup.messages, forKey: Keys.chatGroupMessagesKey)
     }
 }

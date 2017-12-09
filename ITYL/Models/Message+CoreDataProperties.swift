@@ -2,7 +2,7 @@
 //  Message+CoreDataProperties.swift
 //  ITYL
 //
-//  Created by Daniel Jin on 12/5/17.
+//  Created by Daniel Jin on 12/8/17.
 //  Copyright © 2017 Daniel Jin. All rights reserved.
 //
 //
@@ -17,7 +17,9 @@ extension Message {
         return NSFetchRequest<Message>(entityName: "Message")
     }
 
-    @NSManaged public var messageText: String?
     @NSManaged public var deliverTime: NSDate?
+    @NSManaged public var messageText: String?
+    @NSManaged public var chatGroup: ChatGroup?
+    @NSManaged public var sentBy: User?
 
 }

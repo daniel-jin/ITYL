@@ -60,6 +60,7 @@ extension CKRecord {
     }
 }
 
+
 // Conform to Equatable for ability to compare User objects
 extension User {
     // Compare user objects by checking user's CK Record ID

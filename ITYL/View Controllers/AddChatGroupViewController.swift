@@ -17,6 +17,7 @@ class AddChatGroupViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var startChattingButton: UIButton!
+    @IBOutlet weak var searchUsernameButton: UIButton!
     
     // MARK: - IBActions
     @IBAction func searchUsernameButtonTapped(_ sender: Any) {
@@ -36,11 +37,15 @@ class AddChatGroupViewController: UIViewController {
             } else {
                 
                 DispatchQueue.main.async {
+                    
+                    self.searchUsernameButton.isEnabled = false
+                    
                     // Create the chat group
                     guard let addToChatGroup = user else {
                         NSLog("Error adding second user to chat")
                         return
                     }
+                    
                     ChatGroupController.shared.createChatGroupWith(name: username, addUser: addToChatGroup, completion: { (success, chatGroup) in
                         if success {
                             DispatchQueue.main.async {
@@ -68,14 +73,12 @@ class AddChatGroupViewController: UIViewController {
 
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == Keys.toChatGroupMessagesSegue {
             
             // Set segue destination as the Messages VC
-            guard let chatGroupDetailVC = segue.destination as? ChatGroupMessagesTableViewController,
+            guard let chatGroupDetailVC = segue.destination as? ChatMessagesCollectionViewController,
                 let chatGroup = chatGroup else {
                 return
             }
@@ -83,8 +86,6 @@ class AddChatGroupViewController: UIViewController {
             // Send over the chatGroup to the detail VC
             chatGroupDetailVC.chatGroup = chatGroup
         }
-        
     }
- 
 
 }

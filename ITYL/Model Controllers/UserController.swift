@@ -53,6 +53,9 @@ class UserController {
             
             let user = User(username: username, appleUserRef: appleUserRef, chatGroupsRef: [CKReference](), photoData: photoData)
             
+            // Save to Core Data first
+            self.saveToPersistantStore()
+            
             // Get the CKRecord of the user object
             guard let userRecord = CKRecord(user: user) else { return }
             

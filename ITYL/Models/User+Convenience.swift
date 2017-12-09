@@ -13,7 +13,7 @@ import CloudKit
 extension User {
     
     // MARK: - Initializer
-    @discardableResult convenience init(username: String, appleUserRef: CKReference, chatGroupsRef: [CKReference], photoData: Data?, context: NSManagedObjectContext = CoreDataStack.context) {
+    @discardableResult convenience init(username: String, chatGroups: [ChatGroup] = [], appleUserRef: CKReference, chatGroupsRef: [CKReference], photoData: Data?, context: NSManagedObjectContext = CoreDataStack.context) {
         
         self.init(context: context)
         
@@ -21,6 +21,7 @@ extension User {
         self.appleUserRef = appleUserRef
         self.chatGroupsRef = chatGroupsRef
         self.photoData = photoData as NSData?
+        self.chatGroups = NSSet(array: chatGroups)
     }
     
     // MARK: - Temp URL for photo

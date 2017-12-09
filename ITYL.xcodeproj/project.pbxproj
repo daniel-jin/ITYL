@@ -33,7 +33,6 @@
 		6AD2B9B21F9FBB340056D85B /* MessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B11F9FBB340056D85B /* MessageController.swift */; };
 		6AD2B9B41F9FBB3B0056D85B /* ChatGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B31F9FBB3B0056D85B /* ChatGroupController.swift */; };
 		6AD2B9B61FA0E9F60056D85B /* ChatGroupListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B51FA0E9F60056D85B /* ChatGroupListTableViewController.swift */; };
-		6AD2B9B81FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B71FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift */; };
 		6AD2B9BA1FA10EB90056D85B /* SignUpPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9B91FA10EB90056D85B /* SignUpPageViewController.swift */; };
 		6AD2B9BD1FA127540056D85B /* SignUpTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9BC1FA127540056D85B /* SignUpTheme.swift */; };
 		6AD2B9BF1FA138CA0056D85B /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2B9BE1FA138CA0056D85B /* LaunchScreenViewController.swift */; };
@@ -76,7 +75,6 @@
 		6AD2B9B11F9FBB340056D85B /* MessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageController.swift; sourceTree = "<group>"; };
 		6AD2B9B31F9FBB3B0056D85B /* ChatGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupController.swift; sourceTree = "<group>"; };
 		6AD2B9B51FA0E9F60056D85B /* ChatGroupListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupListTableViewController.swift; sourceTree = "<group>"; };
-		6AD2B9B71FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGroupMessagesTableViewController.swift; sourceTree = "<group>"; };
 		6AD2B9B91FA10EB90056D85B /* SignUpPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPageViewController.swift; sourceTree = "<group>"; };
 		6AD2B9BC1FA127540056D85B /* SignUpTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpTheme.swift; sourceTree = "<group>"; };
 		6AD2B9BE1FA138CA0056D85B /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
@@ -160,7 +158,6 @@
 				6AD2B9B51FA0E9F60056D85B /* ChatGroupListTableViewController.swift */,
 				6AD807C81FD6FD4D00D0DF93 /* ChatsCollectionViewController.swift */,
 				6A6A3D8D1FD856F0006E1BD1 /* ChatMessagesCollectionViewController.swift */,
-				6AD2B9B71FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift */,
 				6AD2B9B91FA10EB90056D85B /* SignUpPageViewController.swift */,
 				6AD2B9BE1FA138CA0056D85B /* LaunchScreenViewController.swift */,
 				6AC0F8DC1FA25E6100773DA9 /* AddChatGroupViewController.swift */,
@@ -342,7 +339,6 @@
 				6AD807EE1FD775A600D0DF93 /* User+CoreDataProperties.swift in Sources */,
 				6A6A3D821FD7BDBC006E1BD1 /* ChatGroup+CoreDataProperties.swift in Sources */,
 				6AD807EA1FD7667D00D0DF93 /* ITYL.xcdatamodeld in Sources */,
-				6AD2B9B81FA0ED1C0056D85B /* ChatGroupMessagesTableViewController.swift in Sources */,
 				6A6A3D881FD851A6006E1BD1 /* ChatGroupController+CoreData.swift in Sources */,
 				6A6A3D8E1FD856F0006E1BD1 /* ChatMessagesCollectionViewController.swift in Sources */,
 				6AD807C91FD6FD4D00D0DF93 /* ChatsCollectionViewController.swift in Sources */,

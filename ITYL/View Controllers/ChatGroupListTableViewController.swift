@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+import CloudKit
 
 class ChatGroupListTableViewController: UITableViewController {
 
@@ -14,6 +16,7 @@ class ChatGroupListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: Keys.ChatGroupsArrayChangeNotification, object: nil)
+        
     }
     
     @objc func reloadTable() {
@@ -56,7 +59,7 @@ class ChatGroupListTableViewController: UITableViewController {
         if segue.identifier == Keys.toChatGroupMessagesSegue {
             
             // Set segue destination as the Messages VC
-            guard let chatGroupDetailVC = segue.destination as? ChatGroupMessagesTableViewController,
+            guard let chatGroupDetailVC = segue.destination as? ChatMessagesCollectionViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
             
             let chatGroup = ChatGroupController.shared.chatGroups[indexPath.row]
