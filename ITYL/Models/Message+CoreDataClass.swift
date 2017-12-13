@@ -21,17 +21,27 @@ public class Message: NSManagedObject {
     
     // MARK: - Failable initializer (convert a User CKRecord into a Message object)
     @discardableResult convenience init?(cloudKitRecord: CKRecord, chatGroup: ChatGroup) {
+        
         // Check for CKRecord's values and record type
         guard let messageText = cloudKitRecord[Keys.messageTextKey] as? String,
             let sendingUser = cloudKitRecord[Keys.sendingUserRefKey] as? CKReference,
             let chatGroupRef = cloudKitRecord[Keys.chatGroupRefKey] as? CKReference else { return nil }
         
-        let userRecord = CKRecord(recordType: Keys.userRecordType, recordID: sendingUser.recordID)
-        guard let sentByUser = User(cloudKitRecord: userRecord) else { return nil }
+        CloudKitManager().fetchRecord(withID: sendingUser.recordID) { (record, error) in
+            if let error = error {
+                NSLog("Error fetching user from CloudKit. \(error.localizedDescription)")
+                return
+            }
+            
+            if let record = record {
+                guard let sentByUser = User(cloudKitRecord: record) else { return }
+                
+                // Set the object properties with the cloutKidRecord's values
+                self.init(message: messageText, sentBy: sentByUser, sendingUser: sendingUser, chatGroupRef: chatGroupRef, chatGroup: chatGroup)
+                self.cloudKitRecordID = cloudKitRecord.recordID
+            }
+        }
         
-        // Set the object properties with the cloutKidRecord's values
-        self.init(message: messageText, sentBy: sentByUser, sendingUser: sendingUser, chatGroupRef: chatGroupRef, chatGroup: chatGroup)
-        self.cloudKitRecordID = cloudKitRecord.recordID
     }
 }
 

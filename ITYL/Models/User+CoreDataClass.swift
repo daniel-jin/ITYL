@@ -23,6 +23,7 @@ public class User: NSManagedObject {
     
     // MARK: - Failable initializer (convert a User CKRecord into a User object)
     @discardableResult convenience init?(cloudKitRecord: CKRecord) {
+        
         // Check for CKRecord's values and record type
         guard let username = cloudKitRecord[Keys.usernameKey] as? String,
             let appleUserRef = cloudKitRecord[Keys.appleUserRefKey] as? CKReference,

@@ -100,43 +100,61 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotificiation), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotificiation), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
-        // MARK: - Fetch messages for the chatgroup in core data & check/fetch messagse from CloudKit
+        // MARK: - Fetch messages for the chat group in core data & check/fetch messagse from CloudKit
         // Fetch chatgroups from Core Data
-        guard let chatGroup = chatGroup else { return }
+        guard let chatGroup = chatGroup,
+            let chatGroupRecordIDString = chatGroup.recordIDString else { return }
         
-        // Check/fetch messages from CloudKit
-        guard let chatGroupCKRef = chatGroup.cloudKitRecordID else { return }
-    
-        let chatGroupRefPredicate = NSPredicate(format: "chatGroupRef == %@", chatGroupCKRef)
+        let chatGroupRecordID = CKRecordID(recordName: chatGroupRecordIDString)
         
-        var predicate: NSCompoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate])
-        
-        if let messages = chatGroup.messages,
-            let messagesArray = Array(messages) as? [Message],
-            let lastMessage = messagesArray.last,
-            let lastMsgTime = lastMessage.deliverTime {
-        
-            let predicate2 = NSPredicate(format: "creationDate > %@", lastMsgTime)
-            
-            predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate, predicate2])
-        }
-        
-        cloudKitManager.fetchRecordsWithType(Keys.messageRecordType, predicate: predicate, recordFetchedBlock: nil) { (ckMessages, error) in
+        cloudKitManager.fetchRecord(withID: chatGroupRecordID) { (record, error) in
             if let error = error {
-                NSLog("Error fetching messages from CloudKit: \(error.localizedDescription)")
+                NSLog("Error fetching chat group from CloudKit. \(error.localizedDescription)")
                 return
             }
             
-            if let ckMessages = ckMessages {
+            if let record = record {
+                let chatGroupCKRef = CKReference(record: record, action: .none)
                 
-                for ckMessage in ckMessages {
-                    guard let msg = Message(cloudKitRecord: ckMessage, chatGroup: chatGroup) else { return }
+                // Check/fetch messages from CloudKit
+                
+                let chatGroupRefPredicate = NSPredicate(format: "chatGroupRef == %@", chatGroupCKRef)
+                
+                var predicate: NSCompoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate])
+                
+                if let messages = chatGroup.messages,
+                    let messagesArray = Array(messages) as? [Message],
+                    let lastMessage = messagesArray.last,
+                    let lastMsgTime = lastMessage.deliverTime {
+                    
+                    let predicate2 = NSPredicate(format: "creationDate > %@", lastMsgTime)
+                    
+                    predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate, predicate2])
                 }
                 
-                ChatGroupController.shared.saveToPersistantStore()
+                // Check/fetch messages from CloudKit
+                
+                self.cloudKitManager.fetchRecordsWithType(Keys.messageRecordType, predicate: predicate, recordFetchedBlock: nil) { (ckMessages, error) in
+                    if let error = error {
+                        NSLog("Error fetching messages from CloudKit: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    if let ckMessages = ckMessages {
+                        
+                        for ckMessage in ckMessages {
+                            _ = Message(cloudKitRecord: ckMessage, chatGroup: chatGroup)
+                        }
+                        
+                        ChatGroupController.shared.saveToPersistantStore()
+                        
+                        DispatchQueue.main.async {
+                            self.collectionView?.reloadData()
+                        }
+                    }
+                }
             }
         }
-        
     }
     
     @objc func handleKeyboardNotificiation(notification: Notification) {

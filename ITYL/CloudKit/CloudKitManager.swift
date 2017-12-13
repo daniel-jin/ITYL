@@ -109,7 +109,7 @@ class CloudKitManager {
                 completion(true)
                 return
             default:
-                self.handleCloudKitUnavailable(accountStatus, error: error)
+       //         self.handleCloudKitUnavailable(accountStatus, error: error)
                 completion(false)
             }
         }
@@ -151,6 +151,8 @@ class CloudKitManager {
                 let rootViewController = appWindow.rootViewController {
                 rootViewController.present(alertController, animated: true, completion: nil)
             }
+            
+            
         })
     }
     
