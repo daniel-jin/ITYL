@@ -130,7 +130,7 @@ class SignUpPageViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     //MARK: - Delegates
-    private func imagePickerController(_ picker: UIImagePickerController,
+    @objc func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [String : AnyObject])
     {
         guard let chosenImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }

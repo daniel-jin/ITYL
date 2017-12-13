@@ -28,11 +28,12 @@ class MessageController {
             return
         }
 
-        guard let chatGroupRecordIDString = chatGroup.recordIDString,
-            let sendingUserCKRecordID = currentUser.cloudKitRecordID else {
+        guard let sendingUserCKRecordID = currentUser.cloudKitRecordID else {
             completion(false, nil)
             return
         }
+        
+        let chatGroupRecordIDString = chatGroup.recordIDString
         
         let chatGroupRecordID = CKRecordID(recordName: chatGroupRecordIDString)
         
@@ -40,7 +41,7 @@ class MessageController {
         let sendingUserRef = CKReference(recordID: sendingUserCKRecordID, action: .deleteSelf)
         let chatGroupRef = CKReference(recordID: chatGroupRecordID, action: .deleteSelf)
         
-        let message = Message(message: messageText, sentBy: currentUser ,sendingUser: sendingUserRef, chatGroupRef: chatGroupRef, chatGroup: chatGroup)
+        let message = Message(message: messageText, sentBy: currentUser, sendingUser: sendingUserRef, chatGroupRef: chatGroupRef, chatGroup: chatGroup)
         
         // Save to Core Data first
         self.saveToPersistantStore()

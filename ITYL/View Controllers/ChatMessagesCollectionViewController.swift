@@ -102,9 +102,9 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
 
         // MARK: - Fetch messages for the chat group in core data & check/fetch messagse from CloudKit
         // Fetch chatgroups from Core Data
-        guard let chatGroup = chatGroup,
-            let chatGroupRecordIDString = chatGroup.recordIDString else { return }
+        guard let chatGroup = chatGroup else { return }
         
+        let chatGroupRecordIDString = chatGroup.recordIDString
         let chatGroupRecordID = CKRecordID(recordName: chatGroupRecordIDString)
         
         cloudKitManager.fetchRecord(withID: chatGroupRecordID) { (record, error) in
@@ -127,7 +127,7 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
                     let lastMessage = messagesArray.last,
                     let lastMsgTime = lastMessage.deliverTime {
                     
-                    let predicate2 = NSPredicate(format: "creationDate > %@", lastMsgTime)
+                    let predicate2 = NSPredicate(format: "deliverTime > %@", lastMsgTime)
                     
                     predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate, predicate2])
                 }
@@ -146,24 +146,33 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
                             
                             guard let sendingUserRef = ckMessage[Keys.sendingUserRefKey] as? CKReference else { return }
                             
+                            /*
                             // Check to see if the user is a part of the chat group
                             guard let users = chatGroup.users?.sortedArray(using: []) as? [User] else { return }
                             
-                            users.filter({$0.cloudKitRecordID == sendingUserRef.recordID}).first
-                            
+                            users.filter({$0.recordIDString == sendingUserRef.re}).first
+                            */
+ 
                             // If not, fetch the user record
                             
-                            
-                            
-                            
-                            
-                            _ = Message(cloudKitRecord: ckMessage, chatGroup: chatGroup)
-                        }
-                        
-                        ChatGroupController.shared.saveToPersistantStore()
-                        
-                        DispatchQueue.main.async {
-                            self.collectionView?.reloadData()
+                            self.cloudKitManager.fetchRecord(withID: sendingUserRef.recordID, completion: { (record, error) in
+                                if let error = error {
+                                    NSLog("Error fetching message sender user from CloudKit. \(error.localizedDescription)")
+                                    return
+                                }
+                                
+                                if let record = record {
+                                    
+                                    guard let sentByUser = User(cloudKitRecord: record) else { return }
+                                    _ = Message(cloudKitRecord: ckMessage, chatGroup: chatGroup, sentByUser: sentByUser)
+                                    ChatGroupController.shared.saveToPersistantStore()
+                                    
+                                    DispatchQueue.main.async {
+                                        self.collectionView?.reloadData()
+                                    }
+                                }
+                                
+                            })
                         }
                     }
                 }
@@ -227,6 +236,7 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         
         guard let message = chatGroup?.messages?.object(at: indexPath.row) as? Message,
             let messageSender = message.sentBy,
+            let messageSenderID = messageSender.recordIDString,
             let senderProfilePhotoData = messageSender.photoData as Data? else { return UICollectionViewCell() }
         
         cell.messageTextView.text = message.messageText
@@ -240,7 +250,7 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
             let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
             let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
             
-            if messageSender == UserController.shared.currentUser {
+            if messageSenderID == UserController.shared.currentUser?.recordIDString {
                 // Message is outgoing, not incoming
                 cell.messageTextView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 16 - 16 - 8 , y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height+20)
                 cell.textBubbleView.frame = CGRect(x: view.frame.width-estimatedFrame.width - 16 - 8 - 16 - 10, y: -4, width: estimatedFrame.width + 16 + 8 + 10, height: estimatedFrame.height+20+6)

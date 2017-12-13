@@ -25,18 +25,36 @@ class ChatGroupController {
         // Fetch chatgroups from Core Data
         let request: NSFetchRequest<ChatGroup> = ChatGroup.fetchRequest()
         
-        //request.sortDescriptors = [NSSortDescriptor(key: <#T##String?#>, ascending: true)]
+        //request.sortDescriptors = [NSSortDescriptor(key: "deliverTime", ascending: false)]
         
         // Perform fetch - handle Errors
         do {
-            return try CoreDataStack.context.fetch(request)
+            let results = try CoreDataStack.context.fetch(request)
+            
+            let sortedResults = results.sorted(by:  { (group1, group2) -> Bool in
+                
+                guard let group1Messages = group1.messages?.array as? [Message],
+                    let group2Messages = group2.messages?.array as? [Message] else { return false }
+                
+                guard let group1Message = group1Messages.sorted(by: { $0.deliverTime!.timeIntervalSince1970 > $1.deliverTime!.timeIntervalSince1970 }).first,
+                    let group2Message = group2Messages.sorted(by: { $0.deliverTime!.timeIntervalSince1970 > $1.deliverTime!.timeIntervalSince1970 }).first else { return false }
+                
+                if group1Message.deliverTime!.timeIntervalSince1970 > group2Message.deliverTime!.timeIntervalSince1970 {
+                    return true
+                } else {
+                    return false
+                    
+                }
+            })
+            
+            return sortedResults
         } catch {
             NSLog("There was an error configuring the fetched results. \(error.localizedDescription)")
             return []
         }
-    
+        
     }
-
+    
     init() {
         
         // Check/fetch new chatgroups from CloudKit
@@ -108,7 +126,14 @@ class ChatGroupController {
         // Iterate through the current user's chat group CKReference array and add the chat groups to the current user's local array
         let group = DispatchGroup()
         
-        for CKRef in currentUser.chatGroupsRef {
+        // Check core data so we only fetch chat groups from CK that we need to
+        let syncedGroups = chatGroups.filter({$0.recordIDString != "NOT SYNCED YET"})
+        
+        let referencesToExclude = syncedGroups.map{ CKReference(recordID: CKRecordID(recordName: $0.recordIDString), action: .none) }
+        let filteredRefs = currentUser.chatGroupsRef.filter { !referencesToExclude.contains($0) }
+        
+        // Pull down filtered chat groups from cloudkit, then save to core data
+        for CKRef in filteredRefs {
             
             group.enter()
             

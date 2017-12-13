@@ -20,29 +20,20 @@ public class Message: NSManagedObject {
     var cloudKitRecordID: CKRecordID?
     
     // MARK: - Failable initializer (convert a User CKRecord into a Message object)
-    @discardableResult convenience init?(cloudKitRecord: CKRecord, chatGroup: ChatGroup, sendingUser: User) {
+    @discardableResult convenience init?(cloudKitRecord: CKRecord, chatGroup: ChatGroup, sentByUser: User) {
         
         // Check for CKRecord's values and record type
         guard let messageText = cloudKitRecord[Keys.messageTextKey] as? String,
             let sendingUser = cloudKitRecord[Keys.sendingUserRefKey] as? CKReference,
-            let chatGroupRef = cloudKitRecord[Keys.chatGroupRefKey] as? CKReference else { return nil }
+            let chatGroupRef = cloudKitRecord[Keys.chatGroupRefKey] as? CKReference,
+            let deliverTime = cloudKitRecord["deliverTime"] as? NSDate else { return nil }
         
-        CloudKitManager().fetchRecord(withID: sendingUser.recordID) { (record, error) in
-            if let error = error {
-                NSLog("Error fetching user from CloudKit. \(error.localizedDescription)")
-                return
-            }
-            
-            if let record = record {
-                guard let sentByUser = User(cloudKitRecord: record) else { return }
-                
-                // Set the object properties with the cloutKidRecord's values
-                self.init(message: messageText, sentBy: sentByUser, sendingUser: sendingUser, chatGroupRef: chatGroupRef, chatGroup: chatGroup)
-                self.cloudKitRecordID = cloudKitRecord.recordID
-            }
-            
-            return
-        }
+        // Set the object properties with the cloutKidRecord's values
+        
+        self.init(message: messageText, sentBy: sentByUser, sendingUser: sendingUser, chatGroupRef: chatGroupRef, chatGroup: chatGroup)
+        self.deliverTime = deliverTime
+        self.cloudKitRecordID = cloudKitRecord.recordID
+
     }
 }
 
@@ -59,5 +50,6 @@ extension CKRecord {
         self.setValue(message.messageText, forKey: Keys.messageTextKey)
         self.setValue(message.sendingUser, forKey: Keys.sendingUserRefKey)
         self.setValue(message.chatGroupRef, forKey: Keys.chatGroupRefKey)
+        self.setValue(message.deliverTime, forKey: "deliverTime")
     }
 }

@@ -18,7 +18,7 @@ extension ChatGroup {
     }
 
     @NSManaged public var name: String?
-    @NSManaged public var recordIDString: String?
+    @NSManaged public var recordIDString: String
     @NSManaged public var messages: NSOrderedSet?
     @NSManaged public var users: NSSet?
 
