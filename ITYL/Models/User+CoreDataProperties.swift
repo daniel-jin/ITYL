@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  ITYL
 //
-//  Created by Daniel Jin on 12/8/17.
+//  Created by Daniel Jin on 12/13/17.
 //  Copyright © 2017 Daniel Jin. All rights reserved.
 //
 //
@@ -19,6 +19,7 @@ extension User {
 
     @NSManaged public var photoData: NSData?
     @NSManaged public var username: String?
+    @NSManaged public var recordIDString: String?
     @NSManaged public var chatGroups: NSSet?
 
 }

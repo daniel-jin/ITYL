@@ -18,6 +18,7 @@ extension User {
         self.init(context: context)
         
         self.username = username
+        self.recordIDString = "NOT SYNCED YET"
         self.appleUserRef = appleUserRef
         self.chatGroupsRef = chatGroupsRef
         self.photoData = photoData as NSData?

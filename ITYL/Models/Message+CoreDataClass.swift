@@ -20,7 +20,7 @@ public class Message: NSManagedObject {
     var cloudKitRecordID: CKRecordID?
     
     // MARK: - Failable initializer (convert a User CKRecord into a Message object)
-    @discardableResult convenience init?(cloudKitRecord: CKRecord, chatGroup: ChatGroup) {
+    @discardableResult convenience init?(cloudKitRecord: CKRecord, chatGroup: ChatGroup, sendingUser: User) {
         
         // Check for CKRecord's values and record type
         guard let messageText = cloudKitRecord[Keys.messageTextKey] as? String,
@@ -40,8 +40,9 @@ public class Message: NSManagedObject {
                 self.init(message: messageText, sentBy: sentByUser, sendingUser: sendingUser, chatGroupRef: chatGroupRef, chatGroup: chatGroup)
                 self.cloudKitRecordID = cloudKitRecord.recordID
             }
+            
+            return
         }
-        
     }
 }
 

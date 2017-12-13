@@ -35,6 +35,8 @@ public class User: NSManagedObject {
         let photoData = try? Data(contentsOf: photoAsset.fileURL)
         
         self.init(username: username, appleUserRef: appleUserRef, chatGroupsRef: chatGroupsRef, photoData: photoData)
+        
+        self.recordIDString = cloudKitRecord.recordID.recordName
         cloudKitRecordID = cloudKitRecord.recordID
     }
 }
@@ -43,7 +45,9 @@ public class User: NSManagedObject {
 extension CKRecord {
     convenience init?(user: User) {
         
-        let recordID = user.cloudKitRecordID ?? CKRecordID(recordName: UUID().uuidString)
+        let recordName = UUID().uuidString
+        
+        let recordID = user.cloudKitRecordID ?? CKRecordID(recordName: recordName)
         
         // Init CKRecord
         self.init(recordType: Keys.userRecordType, recordID: recordID)
@@ -58,6 +62,9 @@ extension CKRecord {
         
         let asset = CKAsset(fileURL: user.temporaryPhotoURL)
         self.setValue(asset, forKey: Keys.userPhotoKey)
+        
+        user.recordIDString = recordName
+        user.cloudKitRecordID = recordID
     }
 }
 

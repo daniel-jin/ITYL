@@ -143,6 +143,20 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
                     if let ckMessages = ckMessages {
                         
                         for ckMessage in ckMessages {
+                            
+                            guard let sendingUserRef = ckMessage[Keys.sendingUserRefKey] as? CKReference else { return }
+                            
+                            // Check to see if the user is a part of the chat group
+                            guard let users = chatGroup.users?.sortedArray(using: []) as? [User] else { return }
+                            
+                            users.filter({$0.cloudKitRecordID == sendingUserRef.recordID}).first
+                            
+                            // If not, fetch the user record
+                            
+                            
+                            
+                            
+                            
                             _ = Message(cloudKitRecord: ckMessage, chatGroup: chatGroup)
                         }
                         
