@@ -46,7 +46,6 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
     }()
     
     @objc func sendButtonTapped() {
-        print("handle send text")
         
         guard let chatGroup = chatGroup,
             let text = inputTextField.text,
@@ -73,6 +72,8 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
                 DispatchQueue.main.async {
                     let insertionIndexPath = IndexPath(item: item, section: 0)
                     self.collectionView?.insertItems(at: [insertionIndexPath])
+                    
+                    self.inputTextField.text = nil
                 }
             }
         }
