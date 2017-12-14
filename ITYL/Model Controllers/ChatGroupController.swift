@@ -31,6 +31,8 @@ class ChatGroupController {
         do {
             let results = try CoreDataStack.context.fetch(request)
             
+            
+            /*
             let sortedResults = results.sorted(by:  { (group1, group2) -> Bool in
                 
                 guard let group1Messages = group1.messages?.array as? [Message],
@@ -46,12 +48,16 @@ class ChatGroupController {
                     
                 }
             })
+             */
             
-            return sortedResults
+            return results
+            
         } catch {
             NSLog("There was an error configuring the fetched results. \(error.localizedDescription)")
             return []
         }
+        
+        
         
     }
     
@@ -146,14 +152,38 @@ class ChatGroupController {
                 }
                 
                 guard let CGRecord = CGRecord,
-                    let _ = ChatGroup(cloudKitRecord: CGRecord) else {
+                    let users = CGRecord[Keys.chatGroupMembersKey] as? [CKReference] else {
                         group.leave()
                         return
                 }
                 
+                var chatGroupUsers = [User]()
+                
+                for CKRef in users {
+                    CloudKitManager().fetchRecord(withID: CKRef.recordID, completion: { (record, error) in
+                        if let error = error {
+                            NSLog("Error fetching user with provided Record ID: \(error.localizedDescription)")
+                            group.leave()
+                            return
+                        }
+                        
+                        if let record = record {
+                            guard let user = User(cloudKitRecord: record) else {
+                                group.leave()
+                                return
+                            }
+                            chatGroupUsers.append(user)
+                        }
+                    })
+                }
+                
+                let _ = ChatGroup(cloudKitRecord: CGRecord, users: chatGroupUsers)
+                
                 group.leave()
             })
         }
+        
+        
         
         group.notify(queue: DispatchQueue.main) {
             NotificationCenter.default.post(name: Keys.ChatGroupsArrayChangeNotification, object: nil)

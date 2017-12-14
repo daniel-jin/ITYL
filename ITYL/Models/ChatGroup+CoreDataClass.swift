@@ -17,29 +17,12 @@ public class ChatGroup: NSManagedObject {
     var cloudKitRecordID: CKRecordID?
 
     // MARK: - Failable initializer (convert a User CKRecord into a ChatGroup object)
-    @discardableResult convenience init?(cloudKitRecord: CKRecord) {
+    @discardableResult convenience init?(cloudKitRecord: CKRecord, users: [User]) {
         // Check for CKRecord's values and record type
-        guard let chatGroupName = cloudKitRecord[Keys.chatGroupTitleKey] as? String,
-            let users = cloudKitRecord[Keys.chatGroupMembersKey] as? [CKReference] else { return nil }
-        
-        var chatGroupUsers = [User]()
-        
-        for CKRef in users {
-            CloudKitManager().fetchRecord(withID: CKRef.recordID, completion: { (record, error) in
-                if let error = error {
-                    NSLog("Error fetching user with provided Record ID: \(error.localizedDescription)")
-                    return
-                }
-                
-                if let record = record {
-                    guard let user = User(cloudKitRecord: record) else { return }
-                    chatGroupUsers.append(user)
-                }
-            })
-        }
+        guard let chatGroupName = cloudKitRecord[Keys.chatGroupTitleKey] as? String else { return nil}
         
         // Set the object properties with the cloutKidRecord's values
-        self.init(name: chatGroupName, users: chatGroupUsers)
+        self.init(name: chatGroupName, users: users)
         self.recordIDString = cloudKitRecord.recordID.recordName
         self.cloudKitRecordID = cloudKitRecord.recordID
         

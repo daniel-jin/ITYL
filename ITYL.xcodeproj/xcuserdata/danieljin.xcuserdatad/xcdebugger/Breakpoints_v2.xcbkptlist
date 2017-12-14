@@ -6,43 +6,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ITYL/Model Controllers/ChatGroupController.swift"
-            timestampString = "534964230.385733"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "chatGroups"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ITYL/Model Controllers/ChatGroupController.swift"
-            timestampString = "534964230.385823"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "createChatGroupWith(name:addUser:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/Model Controllers/MessageController.swift"
-            timestampString = "534964230.3859"
+            timestampString = "534968688.713835"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "55"
@@ -58,7 +26,7 @@
                   moduleName = "ITYL"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/danieljin/Desktop/ITYL/ITYL/Model%20Controllers/MessageController.swift"
-                  timestampString = "534964130.255876"
+                  timestampString = "534968688.749453"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "55"
@@ -73,7 +41,7 @@
                   moduleName = "ITYL"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/danieljin/Desktop/ITYL/ITYL/Model%20Controllers/MessageController.swift"
-                  timestampString = "534964130.259317"
+                  timestampString = "534968688.752373"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "58"
@@ -90,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/Models/Message+CoreDataClass.swift"
-            timestampString = "534964230.38597"
+            timestampString = "534968688.713922"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "33"
@@ -106,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.386043"
+            timestampString = "534968688.713999"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "168"
@@ -122,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.386509"
+            timestampString = "534968688.714091"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "254"
@@ -138,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.38686"
+            timestampString = "534968688.714174"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "266"
@@ -154,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.387195"
+            timestampString = "534968688.714255"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "238"
@@ -170,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/SignUpPageViewController.swift"
-            timestampString = "534964230.387534"
+            timestampString = "534968688.714338"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "136"
@@ -186,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.387598"
+            timestampString = "534968688.714401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "232"
@@ -202,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.387912"
+            timestampString = "534968688.714476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "131"
@@ -218,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.388228"
+            timestampString = "534968688.71455"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "126"
@@ -234,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.388547"
+            timestampString = "534968688.714625"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "146"
@@ -250,7 +218,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.388855"
+            timestampString = "534968688.714699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "50"
@@ -266,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/Model Controllers/MessageController.swift"
-            timestampString = "534964230.389147"
+            timestampString = "534968688.714769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "31"
@@ -282,7 +250,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/Model Controllers/MessageController.swift"
-            timestampString = "534964230.389208"
+            timestampString = "534968688.714828"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "44"
@@ -298,7 +266,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/Models/Message+CoreDataClass.swift"
-            timestampString = "534964230.389268"
+            timestampString = "534968688.714888"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -330,7 +298,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatMessagesCollectionViewController.swift"
-            timestampString = "534964230.389496"
+            timestampString = "534968688.715107"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "256"
@@ -346,7 +314,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/View Controllers/ChatsCollectionViewController.swift"
-            timestampString = "534964230.389788"
+            timestampString = "534968688.715181"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
@@ -361,13 +329,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ITYL/View Controllers/ChatsCollectionViewController.swift"
-            timestampString = "534964230.389853"
+            filePath = "ITYL/Model Controllers/ChatGroupController.swift"
+            timestampString = "534968688.715251"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "collectionView(_:cellForItemAt:)"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "refreshData(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ITYL/Models/ChatGroup+CoreDataClass.swift"
+            timestampString = "534968688.715937"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "init(chatGroup:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -378,12 +362,92 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ITYL/Model Controllers/ChatGroupController.swift"
-            timestampString = "534964230.389915"
+            timestampString = "534968688.716"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
-            landmarkName = "createChatGroupWith(name:addUser:completion:)"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "refreshData(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ITYL/Model Controllers/ChatGroupController.swift"
+            timestampString = "534968688.716281"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "refreshData(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ITYL/Model Controllers/ChatGroupController.swift"
+            timestampString = "534968688.716554"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "refreshData(completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ITYL.ChatGroupController.refreshData(completion: () -&gt; ()) -&gt; ()"
+                  moduleName = "ITYL"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/danieljin/Desktop/ITYL/ITYL/Model%20Controllers/ChatGroupController.swift"
+                  timestampString = "534968688.864605"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "1220">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (Swift.Optional&lt;__ObjC.CKRecord&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in ITYL.ChatGroupController.refreshData(completion: () -&gt; ()) -&gt; ()"
+                  moduleName = "ITYL"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/danieljin/Desktop/ITYL/ITYL/Model%20Controllers/ChatGroupController.swift"
+                  timestampString = "534968688.867177"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "25">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ITYL/Models/ChatGroup+CoreDataClass.swift"
+            timestampString = "534968688.716805"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "init(cloudKitRecord:users:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
