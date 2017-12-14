@@ -23,7 +23,16 @@ class ChatsCollectionViewController: UICollectionViewController, UICollectionVie
         collectionView?.alwaysBounceVertical = true
         
         collectionView?.register(ChatCell.self, forCellWithReuseIdentifier: cellId)
+        
+        
     }
+    
+    @IBAction func addChatGroupButtonTapped(_ sender: Any) {
+        
+        performSegue(withIdentifier: Keys.toChatGroupMessagesSegue, sender: self)
+        
+    }
+    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return ChatGroupController.shared.chatGroups.count
@@ -33,10 +42,13 @@ class ChatsCollectionViewController: UICollectionViewController, UICollectionVie
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ChatCell
         
-        let chatGroup = ChatGroupController.shared.chatGroups[indexPath.item]
-        cell.chatGroup = chatGroup
+        if ChatGroupController.shared.chatGroups.count > 0 {
+            let chatGroup = ChatGroupController.shared.chatGroups[indexPath.item]
+            cell.chatGroup = chatGroup
+            return cell
+        }
         
-        return cell
+        return ChatCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -178,7 +190,7 @@ class ChatCell: BaseCell {
         
         containerView.addConstraintsWithFormat(format: "V:|[v0][v1(24)]|", views: nameLabel, messageLabel)
         
-        containerView.addConstraintsWithFormat(format: "H:|[v0]-8-[v1(20)]-12-|", views: messageLabel)
+        containerView.addConstraintsWithFormat(format: "H:|[v0]-8-|", views: messageLabel)
         
         containerView.addConstraintsWithFormat(format: "V:|[v0(24)]", views: timeLabel)
         

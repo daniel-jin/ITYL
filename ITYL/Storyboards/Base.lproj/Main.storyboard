@@ -10,60 +10,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Chats-->
-        <scene sceneID="Kh8-Pw-Vz6">
-            <objects>
-                <tableViewController id="BRQ-ke-gAl" customClass="ChatGroupListTableViewController" customModule="ITYL" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="f1N-Oh-Qn8">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" text="Search" id="oOL-9d-vDF">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </searchBar>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatGroupCell" textLabel="KWX-AG-DJi" style="IBUITableViewCellStyleDefault" id="PGd-Q7-Rso">
-                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PGd-Q7-Rso" id="sx6-5Q-YrU">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KWX-AG-DJi">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="VgZ-SD-MYS" kind="show" identifier="toChatGroupMessages" id="hG2-HZ-pHT"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="BRQ-ke-gAl" id="VFM-Ps-szp"/>
-                            <outlet property="delegate" destination="BRQ-ke-gAl" id="Gpa-yU-8CU"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Chats" id="ltd-cB-Qxg">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="Toj-dw-frS"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="R5Y-HQ-vWf">
-                            <connections>
-                                <action selector="addChatGroupButtonTapped:" destination="BRQ-ke-gAl" id="S0P-Sv-per"/>
-                                <segue destination="CGn-CD-6aA" kind="show" identifier="toAddChatGroupVC" id="xYT-Gz-Cz7"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gHN-l9-rOZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="272.80000000000001" y="145.27736131934034"/>
-        </scene>
         <!--Chat Messages Collection View Controller-->
         <scene sceneID="bfz-eg-ceM">
             <objects>
@@ -98,10 +44,10 @@
             </objects>
             <point key="canvasLocation" x="1220" y="158"/>
         </scene>
-        <!--Collection View Controller-->
+        <!--Title-->
         <scene sceneID="09M-aj-coc">
             <objects>
-                <collectionViewController id="eM0-cU-GZz" sceneMemberID="viewController">
+                <collectionViewController id="eM0-cU-GZz" customClass="ChatsCollectionViewController" customModule="ITYL" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="S2J-ts-xBj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -127,10 +73,18 @@
                             <outlet property="delegate" destination="eM0-cU-GZz" id="FyY-Cc-qIu"/>
                         </connections>
                     </collectionView>
+                    <navigationItem key="navigationItem" title="Title" id="reb-xx-4Zg">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="6pk-ky-6iY">
+                            <connections>
+                                <action selector="addChatGroupButtonTapped:" destination="eM0-cU-GZz" id="iHJ-Vt-tsR"/>
+                                <segue destination="CGn-CD-6aA" kind="show" id="lzb-x1-0Zr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BVO-wb-dn6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2107" y="420"/>
+            <point key="canvasLocation" x="306" y="392"/>
         </scene>
         <!--Add Chat Group View Controller-->
         <scene sceneID="PHs-qb-fDO">
@@ -214,12 +168,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BRQ-ke-gAl" kind="relationship" relationship="rootViewController" id="Uma-MP-sS3"/>
+                        <segue destination="eM0-cU-GZz" kind="relationship" relationship="rootViewController" id="c7x-Bo-fch"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p6z-Ce-E1p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-582" y="332"/>
+            <point key="canvasLocation" x="-567" y="392"/>
         </scene>
         <!--Launch Screen View Controller-->
         <scene sceneID="WDt-6k-x7D">
@@ -233,7 +187,7 @@
                     </view>
                     <connections>
                         <segue destination="K0z-Oq-N1p" kind="show" identifier="toSignUpVC" id="RXc-0L-NM5"/>
-                        <segue destination="Vna-yw-AHM" kind="show" identifier="toChatGroupListTVC" id="Vng-qV-HGD"/>
+                        <segue destination="Vna-yw-AHM" kind="show" identifier="toChatGroupList" id="Vng-qV-HGD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1au-gy-Eua" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -306,7 +260,7 @@
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="submitButtonClicked:" destination="K0z-Oq-N1p" eventType="touchUpInside" id="wGD-FH-zrv"/>
-                                    <segue destination="Vna-yw-AHM" kind="show" identifier="toChatGroupListTVC" id="tdW-ip-OSA"/>
+                                    <segue destination="Vna-yw-AHM" kind="show" identifier="toChatGroupList" id="tdW-ip-OSA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -352,7 +306,6 @@
         <image name="defaultPhoto" width="768" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="tdW-ip-OSA"/>
-        <segue reference="hG2-HZ-pHT"/>
+        <segue reference="Vng-qV-HGD"/>
     </inferredMetricsTieBreakers>
 </document>

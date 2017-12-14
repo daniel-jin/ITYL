@@ -155,12 +155,12 @@
 		6A29A6AD1F97EC560075F2CF /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6AD2B9B51FA0E9F60056D85B /* ChatGroupListTableViewController.swift */,
 				6AD807C81FD6FD4D00D0DF93 /* ChatsCollectionViewController.swift */,
 				6A6A3D8D1FD856F0006E1BD1 /* ChatMessagesCollectionViewController.swift */,
 				6AD2B9B91FA10EB90056D85B /* SignUpPageViewController.swift */,
 				6AD2B9BE1FA138CA0056D85B /* LaunchScreenViewController.swift */,
 				6AC0F8DC1FA25E6100773DA9 /* AddChatGroupViewController.swift */,
+				6AD2B9B51FA0E9F60056D85B /* ChatGroupListTableViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";

@@ -80,7 +80,7 @@ class SignUpPageViewController: UIViewController, UIImagePickerControllerDelegat
             
             if success {
                 NSLog("Success!!!")
-                self.performSegue(withIdentifier: Keys.toChatGroupListsTVCSegue, sender: self)
+                self.performSegue(withIdentifier: Keys.toChatGroupListSegue, sender: self)
             }
             if !success {
                 DispatchQueue.main.async {

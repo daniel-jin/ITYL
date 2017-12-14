@@ -44,7 +44,7 @@ class LaunchScreenViewController: UIViewController {
                 // iCloud account is logged in - now check if we already ahve a user
                 UserController.shared.fetchCurrentUser { (success) in
                     if success {
-                        self.segueToChatGroupListTVC()
+                        self.segueToChatGroupList()
                     } else { self.segueToSignUpVC() }
                 }
             }
@@ -52,9 +52,9 @@ class LaunchScreenViewController: UIViewController {
     }
 
     //MARK: - Navigation
-    @objc func segueToChatGroupListTVC() {
+    @objc func segueToChatGroupList() {
         DispatchQueue.main.async {
-            self.performSegue(withIdentifier: Keys.toChatGroupListsTVCSegue, sender: self)
+            self.performSegue(withIdentifier: Keys.toChatGroupListSegue, sender: self)
         }
         
     }
@@ -65,5 +65,4 @@ class LaunchScreenViewController: UIViewController {
         }
         
     }
-
 }

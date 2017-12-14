@@ -41,7 +41,7 @@ struct Keys {
     // Segues
     static let toChatGroupMessagesSegue = "toChatGroupMessages"
     static let toSignUpVCSegue = "toSignUpVC"
-    static let toChatGroupListsTVCSegue = "toChatGroupListTVC"
+    static let toChatGroupListSegue = "toChatGroupList"
     static let toAddChatGroupVCSegue = "toAddChatGroupVC"
     static let toInviteVCSegue = "toInviteVC"
     
