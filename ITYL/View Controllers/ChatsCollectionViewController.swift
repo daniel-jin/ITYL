@@ -32,7 +32,7 @@ class ChatsCollectionViewController: UICollectionViewController, UICollectionVie
         collectionView?.reloadData()
     }
     
-    @IBAction func unwindToChatList(segue: UIStoryboardSegue) {}
+    @IBAction func unwindToChatList(segue:UIStoryboardSegue) { }
     
     @IBAction func addChatGroupButtonTapped(_ sender: Any) {
         
@@ -122,6 +122,7 @@ class ChatCell: BaseCell {
                 
                 timeLabel.text = dateFormatter.string(from: date as Date)
                 
+                NotificationCenter.default.post(name: Keys.ChatGroupsArrayChangeNotification, object: self)
             }
         }
     }
@@ -142,14 +143,14 @@ class ChatCell: BaseCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Mark Zuckerberg"
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 18)
         return label
     }()
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "12:05 pm"
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .right
         return label
@@ -157,7 +158,7 @@ class ChatCell: BaseCell {
     
     let messageLabel: UILabel = {
         let label = UILabel()
-        label.text = "Your friend's message and something else..."
+        label.text = ""
         label.textColor = UIColor.darkGray
         label.font = UIFont.systemFont(ofSize: 14)
         return label

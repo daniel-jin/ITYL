@@ -44,6 +44,13 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         
         return button
     }()
+
+    @IBAction func backToChatsButtonTapped(_ sender: Any) {
+        
+        performSegue(withIdentifier: "unwindToChatList", sender: self)
+        
+    }
+    
     
     @objc func sendButtonTapped() {
         
@@ -79,16 +86,14 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         }
     }
     
-    @IBAction func goBackToChatListButtonTapped(_ sender: Any) {
-        
-        performSegue(withIdentifier: "unwindToChatList", sender: self)
-        
-    }
+    
     
     var bottomConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.title = ""
 
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
