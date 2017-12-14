@@ -25,8 +25,6 @@ public class ChatGroup: NSManagedObject {
         self.init(name: chatGroupName, users: users)
         self.recordIDString = cloudKitRecord.recordID.recordName
         self.cloudKitRecordID = cloudKitRecord.recordID
-        
-        
     }
 }
 

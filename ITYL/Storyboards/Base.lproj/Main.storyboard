@@ -39,8 +39,12 @@
                             <outlet property="delegate" destination="VgZ-SD-MYS" id="A8Q-yF-fB3"/>
                         </connections>
                     </collectionView>
+                    <connections>
+                        <segue destination="zgO-sA-IPe" kind="unwind" identifier="unwindToChatList" unwindAction="unwindToChatListWithSegue:" id="evG-OX-fSF"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gah-ou-iMw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="zgO-sA-IPe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1220" y="158"/>
         </scene>

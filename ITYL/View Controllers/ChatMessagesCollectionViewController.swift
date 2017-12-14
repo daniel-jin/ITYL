@@ -79,6 +79,12 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         }
     }
     
+    @IBAction func goBackToChatListButtonTapped(_ sender: Any) {
+        
+        performSegue(withIdentifier: "unwindToChatList", sender: self)
+        
+    }
+    
     var bottomConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {

@@ -24,8 +24,15 @@ class ChatsCollectionViewController: UICollectionViewController, UICollectionVie
         
         collectionView?.register(ChatCell.self, forCellWithReuseIdentifier: cellId)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: Keys.ChatGroupsArrayChangeNotification, object: nil)
         
     }
+    
+    @objc func reloadCollectionView() {
+        collectionView?.reloadData()
+    }
+    
+    @IBAction func unwindToChatList(segue: UIStoryboardSegue) {}
     
     @IBAction func addChatGroupButtonTapped(_ sender: Any) {
         

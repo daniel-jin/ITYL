@@ -159,27 +159,35 @@ class ChatGroupController {
                 
                 var chatGroupUsers = [User]()
                 
+                let group2 = DispatchGroup()
+                
                 for CKRef in users {
+                    
+                    group2.enter()
+                    
                     CloudKitManager().fetchRecord(withID: CKRef.recordID, completion: { (record, error) in
                         if let error = error {
                             NSLog("Error fetching user with provided Record ID: \(error.localizedDescription)")
-                            group.leave()
+                            group2.leave()
                             return
                         }
                         
                         if let record = record {
                             guard let user = User(cloudKitRecord: record) else {
-                                group.leave()
+                                group2.leave()
                                 return
                             }
                             chatGroupUsers.append(user)
+                            group2.leave()
                         }
                     })
                 }
                 
-                let _ = ChatGroup(cloudKitRecord: CGRecord, users: chatGroupUsers)
+                group2.notify(queue: .main, execute: {
+                    let _ = ChatGroup(cloudKitRecord: CGRecord, users: chatGroupUsers)
+                    group.leave()
+                })
                 
-                group.leave()
             })
         }
         
