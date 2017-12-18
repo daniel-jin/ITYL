@@ -31,24 +31,22 @@ class ChatGroupController {
         do {
             let results = try CoreDataStack.context.fetch(request)
             
-            
-            /*
-            let sortedResults = results.sorted(by:  { (group1, group2) -> Bool in
-                
-                guard let group1Messages = group1.messages?.array as? [Message],
-                    let group2Messages = group2.messages?.array as? [Message] else { return false }
-                
-                guard let group1Message = group1Messages.sorted(by: { $0.deliverTime!.timeIntervalSince1970 > $1.deliverTime!.timeIntervalSince1970 }).first,
-                    let group2Message = group2Messages.sorted(by: { $0.deliverTime!.timeIntervalSince1970 > $1.deliverTime!.timeIntervalSince1970 }).first else { return false }
-                
-                if group1Message.deliverTime!.timeIntervalSince1970 > group2Message.deliverTime!.timeIntervalSince1970 {
-                    return true
-                } else {
-                    return false
-                    
-                }
-            })
-             */
+//            let sortedResults = results.sorted(by:  { (group1, group2) -> Bool in
+//
+//                guard let group1Messages = group1.messages?.array as? [Message],
+//                    let group2Messages = group2.messages?.array as? [Message] else { return false }
+//
+//                guard let group1Message = group1Messages.sorted(by: { $0.deliverTime!.timeIntervalSince1970 > $1.deliverTime!.timeIntervalSince1970 }).first,
+//                    let group2Message = group2Messages.sorted(by: { $0.deliverTime!.timeIntervalSince1970 > $1.deliverTime!.timeIntervalSince1970 }).first else { return false }
+//
+//                if group1Message.deliverTime!.timeIntervalSince1970 > group2Message.deliverTime!.timeIntervalSince1970 {
+//                    return true
+//                } else {
+//                    return false
+//
+//                }
+//            })
+ 
             
             return results
             

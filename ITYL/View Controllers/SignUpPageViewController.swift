@@ -79,7 +79,7 @@ class SignUpPageViewController: UIViewController, UIImagePickerControllerDelegat
         UserController.shared.createUserWith(username: username, photoData: UIImageJPEGRepresentation(profileImage, 1.0)) { (success) in
             
             if success {
-                NSLog("Success!!!")
+                NSLog("Successfully created user")
                 self.performSegue(withIdentifier: Keys.toChatGroupListSegue, sender: self)
             }
             if !success {

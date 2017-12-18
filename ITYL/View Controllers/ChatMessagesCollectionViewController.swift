@@ -135,11 +135,15 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
                 var predicate: NSCompoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate])
                 
                 if let messages = chatGroup.messages,
-                    let messagesArray = Array(messages) as? [Message],
-                    let lastMessage = messagesArray.last,
-                    let lastMsgTime = lastMessage.deliverTime {
+                    let messagesArray = Array(messages) as? [Message] {
+                
+//                    let lastMessage = messagesArray.last,
+//                    let lastMsgTime = lastMessage.deliverTime {
+                    //let predicate2 = NSPredicate(format: "deliverTime > %@", lastMsgTime)
                     
-                    let predicate2 = NSPredicate(format: "deliverTime > %@", lastMsgTime)
+                    let msgsToExclude = messagesArray.flatMap{ CKReference(recordID: CKRecordID(recordName: $0.recordIDString), action: .none) }
+                    
+                    let predicate2 = NSPredicate(format: "NOT(recordID IN %@)", argumentArray: [msgsToExclude])
                     
                     predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate, predicate2])
                 }
@@ -187,7 +191,15 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
                             })
                         }
                     }
-                }
+                } // Messages have been fetched from CloudKit and added to CoreData
+
+                // Now sort all the messages by deliverTime
+                guard let msgOrderedSet = chatGroup.messages else { return }
+                
+                
+                
+                
+
             }
         }
     }

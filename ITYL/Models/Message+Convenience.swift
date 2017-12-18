@@ -22,6 +22,7 @@ extension Message {
         self.sendingUser = sendingUser
         self.chatGroupRef = chatGroupRef
         self.chatGroup = chatGroup
+        self.recordIDString = "NOT SYNCED YET"
         self.deliverTime = NSDate()
     }
     

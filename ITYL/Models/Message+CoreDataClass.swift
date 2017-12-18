@@ -32,6 +32,7 @@ public class Message: NSManagedObject {
         
         self.init(message: messageText, sentBy: sentByUser, sendingUser: sendingUser, chatGroupRef: chatGroupRef, chatGroup: chatGroup)
         self.deliverTime = deliverTime
+        self.recordIDString = cloudKitRecord.recordID.recordName
         self.cloudKitRecordID = cloudKitRecord.recordID
 
     }
@@ -41,10 +42,15 @@ public class Message: NSManagedObject {
 extension CKRecord {
     convenience init?(message: Message) {
         
-        let recordID = message.cloudKitRecordID ?? CKRecordID(recordName: UUID().uuidString)
+        let recordName = UUID().uuidString
         
+        let recordID = message.cloudKitRecordID ?? CKRecordID(recordName: recordName)
+                
         // Init CKRecord
         self.init(recordType: Keys.messageRecordType, recordID: recordID)
+        
+        message.recordIDString = recordName
+        message.cloudKitRecordID = recordID
         
         // Set values for the initialized CKRecord
         self.setValue(message.messageText, forKey: Keys.messageTextKey)

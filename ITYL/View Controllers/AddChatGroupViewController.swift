@@ -58,12 +58,12 @@ class AddChatGroupViewController: UIViewController {
             }
         }
     }
-    
+
     @IBAction func startChattingButtonTapped(_ sender: Any) {
-        
+
         performSegue(withIdentifier: Keys.toChatGroupMessagesSegue, sender: self)
         
-    }    
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

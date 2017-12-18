@@ -122,7 +122,7 @@ class ChatCell: BaseCell {
                 
                 timeLabel.text = dateFormatter.string(from: date as Date)
                 
-                NotificationCenter.default.post(name: Keys.ChatGroupsArrayChangeNotification, object: self)
+            //    NotificationCenter.default.post(name: Keys.ChatGroupsArrayChangeNotification, object: self)
             }
         }
     }
