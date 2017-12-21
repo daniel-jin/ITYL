@@ -128,16 +128,14 @@ class SignUpPageViewController: UIViewController, UIImagePickerControllerDelegat
         imagePicker.delegate = self
         setAppearance()
     }
-    
     //MARK: - Delegates
-    @objc func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [String : AnyObject])
-    {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         guard let chosenImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
         profileImageView.contentMode = .scaleAspectFit
         profileImageView.image = chosenImage
         dismiss(animated: true, completion: nil)
     }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }

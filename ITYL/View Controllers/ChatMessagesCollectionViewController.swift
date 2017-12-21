@@ -90,12 +90,24 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         }
     }
     
+    @objc func sendButtonLongPressed() {
+        
+        
+        
+    }
+    
     
     
     var bottomConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ChatMessagesCollectionViewController.sendButtonTapped))
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(ChatMessagesCollectionViewController.sendButtonLongPressed))
+        tapGesture.numberOfTapsRequired = 1
+        sendButton.addGestureRecognizer(tapGesture)
+        sendButton.addGestureRecognizer(longGesture)
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: Notifications.reloadChatGroupDetailCVNotification, object: nil)
     
@@ -130,13 +142,18 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
                 NSLog("Error fetching subscriptions. \(error)")
             }
             
-            if let subscriptions = subscriptions {
+            if let subscriptions = subscriptions, subscriptions.count > 0 {
                 
-                if !subscriptions.map({ $0.subscriptionID }).contains(subID) {
+                if let subscription = subscriptions.filter({ $0.subscriptionID == subID}).first {
+                   
+                    CKContainer.default().publicCloudDatabase.save(subscription, completionHandler: { (subscription, error) in
+                        print(error?.localizedDescription ?? "No error")
+                    })
                     
-                    self.cloudKitManager.subscribeToCreationOfRecords(ofType: Keys.messageRecordType, chatGroup: chatGroup)
                     
                 }
+            } else {
+                self.cloudKitManager.subscribeToCreationOfRecords(ofType: Keys.messageRecordType, chatGroup: chatGroup)
             }
         }
         

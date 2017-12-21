@@ -154,11 +154,9 @@ class MessageController {
                         NotificationCenter.default.post(name: Notifications.reloadChatGroupDetailCVNotification, object: nil)
                         
                     }
-                    
                 } // Messages have been fetched from CloudKit, saved to CoreData, and sorted by deliverTime
             }
         }
-        
     }
     
     func subscribeToPushNotifications(chatGroup: ChatGroup, completion: @escaping ((Error?) -> Void) = { _ in }) {

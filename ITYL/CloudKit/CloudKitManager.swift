@@ -172,6 +172,7 @@ class CloudKitManager {
 //        notificationInfo.alertBody = "There's a new message."
         
         notificationInfo.shouldSendContentAvailable = true
+        notificationInfo.alertBody = "foo"
         subscription.notificationInfo = notificationInfo
         
         publicDatabase.save(subscription, completionHandler: { (subscription, error) in
