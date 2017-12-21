@@ -67,4 +67,16 @@ class MessageController {
             completion(true, message)
         }
     }
+    
+    func subscribeToPushNotifications(completion: @escaping ((Error?) -> Void) = { _ in }) {
+        
+        self.cloudKitManager.subscribeToCreationOfRecords(ofType: Keys.messageRecordType) { (error) in
+            if let error = error {
+                NSLog("Error saving subscription: \(error)")
+            } else {
+                NSLog("Subscribed to push notifications for new messages")
+            }
+            completion(error)
+        }
+    }
 }

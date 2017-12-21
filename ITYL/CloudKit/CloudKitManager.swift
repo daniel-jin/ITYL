@@ -156,4 +156,19 @@ class CloudKitManager {
         })
     }
     
+    func subscribeToCreationOfRecords(ofType type: String, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        let subscription = CKQuerySubscription(recordType: type, predicate: NSPredicate(value: true), options: .firesOnRecordCreation)
+        
+//        let notificationInfo = CKNotificationInfo()
+//        notificationInfo.alertBody = "There's a new message."
+//        subscription.notificationInfo = notificationInfo
+        
+        publicDatabase.save(subscription, completionHandler: { (subscription, error) in
+            if let error = error {
+                NSLog("Error saving subscription: \(error)")
+            }
+            completion(error)
+        })
+    }
+    
 }
