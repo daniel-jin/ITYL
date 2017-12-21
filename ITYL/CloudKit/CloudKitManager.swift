@@ -156,19 +156,19 @@ class CloudKitManager {
         })
     }
     
-    func subscribeToCreationOfRecords(ofType type: String, completion: @escaping ((Error?) -> Void) = { _ in }) {
-
-        guard let currUser = UserController.shared.currentUser else { return }
+    func subscribeToCreationOfRecords(ofType type: String, chatGroup: ChatGroup, completion: @escaping ((Error?) -> Void) = { _ in }) {
         
-        currUser.chatGroupsRef
+        let chatGroupRecordID = CKRecordID(recordName: chatGroup.recordIDString)
         
-        let predicate = NSPredicate(format: <#T##String#>, currUser.chatGroupsRef)
+        let predicate = NSPredicate(format: "chatGroupRef == %@", CKReference(recordID: chatGroupRecordID, action: .none))
         
         let subscription = CKQuerySubscription(recordType: type, predicate: predicate, options: .firesOnRecordCreation)
         
-//        let notificationInfo = CKNotificationInfo()
+        let notificationInfo = CKNotificationInfo()
 //        notificationInfo.alertBody = "There's a new message."
-//        subscription.notificationInfo = notificationInfo
+        
+        notificationInfo.shouldSendContentAvailable = true
+        subscription.notificationInfo = notificationInfo
         
         publicDatabase.save(subscription, completionHandler: { (subscription, error) in
             if let error = error {

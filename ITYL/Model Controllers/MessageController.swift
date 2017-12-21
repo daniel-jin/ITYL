@@ -68,9 +68,9 @@ class MessageController {
         }
     }
     
-    func subscribeToPushNotifications(completion: @escaping ((Error?) -> Void) = { _ in }) {
+    func subscribeToPushNotifications(chatGroup: ChatGroup, completion: @escaping ((Error?) -> Void) = { _ in }) {
         
-        self.cloudKitManager.subscribeToCreationOfRecords(ofType: Keys.messageRecordType) { (error) in
+        self.cloudKitManager.subscribeToCreationOfRecords(ofType: Keys.messageRecordType, chatGroup: chatGroup) { (error) in
             if let error = error {
                 NSLog("Error saving subscription: \(error)")
             } else {

@@ -12,12 +12,13 @@ import CoreData
 extension ChatGroup {
     
     // MARK: - Initializer
-    convenience init(name: String, users: [User], context: NSManagedObjectContext = CoreDataStack.context) {
+    convenience init(name: String, users: [User], subscriptionID: String, context: NSManagedObjectContext = CoreDataStack.context) {
         
         self.init(context: context)
         
         self.name = name
         self.users = NSSet(array: users)
+        self.subscriptionID = subscriptionID
         self.recordIDString = "NOT SYNCED YET"
     }
 }

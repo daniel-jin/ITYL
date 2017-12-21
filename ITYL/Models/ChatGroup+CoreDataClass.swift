@@ -19,10 +19,11 @@ public class ChatGroup: NSManagedObject {
     // MARK: - Failable initializer (convert a User CKRecord into a ChatGroup object)
     @discardableResult convenience init?(cloudKitRecord: CKRecord, users: [User]) {
         // Check for CKRecord's values and record type
-        guard let chatGroupName = cloudKitRecord[Keys.chatGroupTitleKey] as? String else { return nil}
+        guard let chatGroupName = cloudKitRecord[Keys.chatGroupTitleKey] as? String,
+            let subscriptionID = cloudKitRecord["subscriptionID"] as? String  else { return nil}
         
         // Set the object properties with the cloutKidRecord's values
-        self.init(name: chatGroupName, users: users)
+        self.init(name: chatGroupName, users: users, subscriptionID: subscriptionID)
         self.recordIDString = cloudKitRecord.recordID.recordName
         self.cloudKitRecordID = cloudKitRecord.recordID
     }
@@ -54,5 +55,7 @@ extension CKRecord {
             let usersCKRefArray = userRecordsArray.map({ CKReference(record: $0, action: .none) }) as? [CKReference] else { return }
 
         self.setValue(usersCKRefArray, forKey: Keys.chatGroupMembersKey)
+        
+        self.setValue(chatGroup.subscriptionID, forKey: "subscriptionID")
     }
 }

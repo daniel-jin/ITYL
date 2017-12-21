@@ -115,7 +115,25 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         guard let chatGroup = chatGroup,
             let users = chatGroup.users,
             let usersArray = Array(users) as? [User],
-            let currUser = UserController.shared.currentUser else { return }
+            let currUser = UserController.shared.currentUser,
+            let subID = chatGroup.subscriptionID else { return }
+        
+        // Subscribe to new messages if not already
+        self.cloudKitManager.publicDatabase.fetchAllSubscriptions { (subscriptions, error) in
+            if let error = error {
+                NSLog("Error fetching subscriptions. \(error)")
+            }
+            
+            if let subscriptions = subscriptions {
+                
+                if !subscriptions.map({ $0.subscriptionID }).contains(subID) {
+                    
+                    self.cloudKitManager.subscribeToCreationOfRecords(ofType: Keys.messageRecordType, chatGroup: chatGroup)
+                    
+                }
+                
+            }
+        }
         
         let otherUser = usersArray.filter{ $0.recordIDString != currUser.recordIDString }.first
         

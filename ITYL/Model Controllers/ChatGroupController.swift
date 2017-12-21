@@ -68,7 +68,7 @@ class ChatGroupController {
     
     // MARK: - CRUD Functions
     // Create
-    func createChatGroupWith(name: String, addUser: User, completion: @escaping (_ success: Bool, _ chatGroup: ChatGroup?) -> Void) {
+    func createChatGroupWith(name: String, addUser: User, subscriptionID: String, completion: @escaping (_ success: Bool, _ chatGroup: ChatGroup?) -> Void) {
         
         // Check for current user
         guard let currentUser = UserController.shared.currentUser else {
@@ -78,7 +78,7 @@ class ChatGroupController {
         }
         
         // Create a chatGroup with the current user as the initial member
-        let chatGroup = ChatGroup(name: name, users: [currentUser, addUser])
+        let chatGroup = ChatGroup(name: name, users: [currentUser, addUser], subscriptionID: subscriptionID)
         
         // Save to Core Data first
         self.saveToPersistantStore()

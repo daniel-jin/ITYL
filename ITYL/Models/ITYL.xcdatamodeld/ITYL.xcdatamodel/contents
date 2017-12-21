@@ -3,6 +3,7 @@
     <entity name="ChatGroup" representedClassName="ChatGroup" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="recordIDString" attributeType="String" syncable="YES"/>
+        <attribute name="subscriptionID" attributeType="String" syncable="YES"/>
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Message" inverseName="chatGroup" inverseEntity="Message" syncable="YES"/>
         <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="chatGroups" inverseEntity="User" syncable="YES"/>
     </entity>
@@ -20,7 +21,7 @@
         <relationship name="chatGroups" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ChatGroup" inverseName="users" inverseEntity="ChatGroup" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ChatGroup" positionX="-54" positionY="18" width="128" height="105"/>
+        <element name="ChatGroup" positionX="-54" positionY="18" width="128" height="120"/>
         <element name="Message" positionX="225" positionY="36" width="128" height="120"/>
         <element name="User" positionX="90" positionY="-90" width="128" height="105"/>
     </elements>

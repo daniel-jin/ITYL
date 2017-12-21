@@ -95,7 +95,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "270"
             endingLineNumber = "270"
-            landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkName = "setupInputComponents()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,7 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "264"
             endingLineNumber = "264"
-            landmarkName = "collectionView(_:numberOfItemsInSection:)"
+            landmarkName = "setupInputComponents()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

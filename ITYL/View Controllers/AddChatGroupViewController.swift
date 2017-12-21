@@ -46,12 +46,17 @@ class AddChatGroupViewController: UIViewController {
                         return
                     }
                     
-                    ChatGroupController.shared.createChatGroupWith(name: username, addUser: addToChatGroup, completion: { (success, chatGroup) in
+                    ChatGroupController.shared.createChatGroupWith(name: username, addUser: addToChatGroup, subscriptionID: UUID().uuidString, completion: { (success, chatGroup) in
                         if success {
+                            
+                            guard let chatGroup = chatGroup else { return }
+                            
                             DispatchQueue.main.async {
                                 self.startChattingButton.isHidden = false
                                 self.chatGroup = chatGroup
                             }
+                            
+                            CloudKitManager().subscribeToCreationOfRecords(ofType: Keys.messageRecordType, chatGroup: chatGroup)
                         }
                     })
                 }

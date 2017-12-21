@@ -2,7 +2,7 @@
 //  ChatGroup+CoreDataProperties.swift
 //  ITYL
 //
-//  Created by Daniel Jin on 12/8/17.
+//  Created by Daniel Jin on 12/21/17.
 //  Copyright © 2017 Daniel Jin. All rights reserved.
 //
 //
@@ -19,6 +19,7 @@ extension ChatGroup {
 
     @NSManaged public var name: String?
     @NSManaged public var recordIDString: String
+    @NSManaged public var subscriptionID: String?
     @NSManaged public var messages: NSOrderedSet?
     @NSManaged public var users: NSSet?
 
