@@ -68,6 +68,99 @@ class MessageController {
         }
     }
     
+    func fetchNewCKMessages(chatGroup: ChatGroup, chatGroupRecordID: CKRecordID) {
+        
+        cloudKitManager.fetchRecord(withID: chatGroupRecordID) { (record, error) in
+            if let error = error {
+                NSLog("Error fetching chat group from CloudKit. \(error.localizedDescription)")
+                return
+            }
+            
+            if let record = record {
+                let chatGroupCKRef = CKReference(record: record, action: .none)
+                
+                // Check/fetch messages from CloudKit
+                
+                let chatGroupRefPredicate = NSPredicate(format: "chatGroupRef == %@", chatGroupCKRef)
+                
+                var predicate: NSCompoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate])
+                
+                if let messages = chatGroup.messages,
+                    let messagesArray = Array(messages) as? [Message] {
+                    
+                    //                    let lastMessage = messagesArray.last,
+                    //                    let lastMsgTime = lastMessage.deliverTime {
+                    //let predicate2 = NSPredicate(format: "deliverTime > %@", lastMsgTime)
+                    
+                    let msgsToExclude = messagesArray.flatMap{ CKReference(recordID: CKRecordID(recordName: $0.recordIDString), action: .none) }
+                    
+                    let predicate2 = NSPredicate(format: "NOT(recordID IN %@)", argumentArray: [msgsToExclude])
+                    
+                    predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate, predicate2])
+                }
+                
+                // Check/fetch new messages from CloudKit
+                
+                self.cloudKitManager.fetchRecordsWithType(Keys.messageRecordType, predicate: predicate, recordFetchedBlock: nil) { (ckMessages, error) in
+                    if let error = error {
+                        NSLog("Error fetching messages from CloudKit: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    let group = DispatchGroup()
+                    
+                    if let ckMessages = ckMessages {
+                        
+                        for ckMessage in ckMessages {
+                            
+                            group.enter()
+                            
+                            guard let sendingUserRef = ckMessage[Keys.sendingUserRefKey] as? CKReference else {
+                                group.leave()
+                                return
+                            }
+                            
+                            self.cloudKitManager.fetchRecord(withID: sendingUserRef.recordID, completion: { (record, error) in
+                                if let error = error {
+                                    NSLog("Error fetching message sender user from CloudKit. \(error.localizedDescription)")
+                                    group.leave()
+                                    return
+                                }
+                                
+                                if let record = record {
+                                    
+                                    guard let sentByUser = User(cloudKitRecord: record) else {
+                                        group.leave()
+                                        return
+                                    }
+                                    
+                                    // Create the message and save to Core Data
+                                    _ = Message(cloudKitRecord: ckMessage, chatGroup: chatGroup, sentByUser: sentByUser)
+                                    ChatGroupController.shared.saveToPersistantStore()
+                                    group.leave()
+                                }
+                            })
+                        }
+                    }
+                    
+                    group.notify(queue: DispatchQueue.main) {
+                        
+                        guard let sortedMsgs = chatGroup.messages?.mutableCopy() as? NSMutableOrderedSet else { return }
+                        let sortDescriptor = NSSortDescriptor(key: "deliverTime", ascending: true)
+                        sortedMsgs.sort(using: [sortDescriptor])
+                        chatGroup.messages = sortedMsgs
+                        UserController.shared.saveToPersistantStore()
+                        
+                        NotificationCenter.default.post(name: Notifications.reloadChatGroupDetailCVNotification, object: nil)
+                        
+                    }
+                    
+                } // Messages have been fetched from CloudKit, saved to CoreData, and sorted by deliverTime
+            }
+        }
+        
+    }
+    
     func subscribeToPushNotifications(chatGroup: ChatGroup, completion: @escaping ((Error?) -> Void) = { _ in }) {
         
         self.cloudKitManager.subscribeToCreationOfRecords(ofType: Keys.messageRecordType, chatGroup: chatGroup) { (error) in

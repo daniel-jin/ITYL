@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A1426A71FEC388700EF1473 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1426A61FEC388700EF1473 /* Notifications.swift */; };
 		6A29A69A1F97EC360075F2CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A29A6991F97EC360075F2CF /* AppDelegate.swift */; };
 		6A29A69F1F97EC360075F2CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A29A69D1F97EC360075F2CF /* Main.storyboard */; };
 		6A29A6A11F97EC360075F2CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A29A6A01F97EC360075F2CF /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6A1426A61FEC388700EF1473 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		6A29A6961F97EC360075F2CF /* ITYL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ITYL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A29A6991F97EC360075F2CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A29A69E1F97EC360075F2CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				6A6B3EC51F9E65220014D3EF /* Protocols.swift */,
 				6A6B3EB61F9D3F3C0014D3EF /* Keys.swift */,
 				6AC0F8DE1FA2601D00773DA9 /* Helper Methods.swift */,
+				6A1426A61FEC388700EF1473 /* Notifications.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -260,6 +263,9 @@
 						CreatedOnToolsVersion = 9.0.1;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -334,6 +340,7 @@
 				6AD807ED1FD775A600D0DF93 /* User+CoreDataClass.swift in Sources */,
 				6A6B3EBE1F9D548D0014D3EF /* CloudKitManager.swift in Sources */,
 				6AD2B9BF1FA138CA0056D85B /* LaunchScreenViewController.swift in Sources */,
+				6A1426A71FEC388700EF1473 /* Notifications.swift in Sources */,
 				6A6A3D7E1FD7BBD9006E1BD1 /* Message+Convenience.swift in Sources */,
 				6AD807F01FD7772D00D0DF93 /* User+Convenience.swift in Sources */,
 			);

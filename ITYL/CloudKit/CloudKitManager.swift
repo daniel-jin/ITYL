@@ -162,9 +162,13 @@ class CloudKitManager {
         
         let predicate = NSPredicate(format: "chatGroupRef == %@", CKReference(recordID: chatGroupRecordID, action: .none))
         
-        let subscription = CKQuerySubscription(recordType: type, predicate: predicate, options: .firesOnRecordCreation)
+        guard let chatGroupSubID = chatGroup.subscriptionID else { return }
+        
+        let subscription = CKQuerySubscription(recordType: type, predicate: predicate, subscriptionID: chatGroupSubID, options: .firesOnRecordCreation)
         
         let notificationInfo = CKNotificationInfo()
+        
+        notificationInfo.desiredKeys = ["chatGroupRef"]
 //        notificationInfo.alertBody = "There's a new message."
         
         notificationInfo.shouldSendContentAvailable = true

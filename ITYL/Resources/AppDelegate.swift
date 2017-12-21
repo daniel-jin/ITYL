@@ -17,14 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        UNUserNotificationCenter.current().requestAuthorization(options: []) { (success, error) in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (success, error) in
             if let error = error {
                 NSLog("Error requesting authorization for notifications: \(error)")
                 return
             }
+            
+            if success {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
         }
         
-        UIApplication.shared.registerForRemoteNotifications()
         
         return true
     }
@@ -38,7 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
+        print(userInfo)
         
+     //   MessageController.shared.fetchNewCKMessages(chatGroup: <#T##ChatGroup#>, chatGroupRecordID: <#T##CKRecordID#>)
         
     }
 
