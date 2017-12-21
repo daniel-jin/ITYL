@@ -92,9 +92,7 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.title = ""
-
+    
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         
@@ -114,7 +112,14 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
 
         // MARK: - Fetch messages for the chat group in core data & check/fetch messagse from CloudKit
         // Fetch chatgroups from Core Data
-        guard let chatGroup = chatGroup else { return }
+        guard let chatGroup = chatGroup,
+            let users = chatGroup.users,
+            let usersArray = Array(users) as? [User],
+            let currUser = UserController.shared.currentUser else { return }
+        
+        let otherUser = usersArray.filter{ $0.recordIDString != currUser.recordIDString }.first
+        
+        navigationItem.title = otherUser?.username
         
         let chatGroupRecordIDString = chatGroup.recordIDString
         let chatGroupRecordID = CKRecordID(recordName: chatGroupRecordIDString)
@@ -148,7 +153,7 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
                     predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [chatGroupRefPredicate, predicate2])
                 }
                 
-                // Check/fetch messages from CloudKit
+                // Check/fetch new messages from CloudKit
                 
                 self.cloudKitManager.fetchRecordsWithType(Keys.messageRecordType, predicate: predicate, recordFetchedBlock: nil) { (ckMessages, error) in
                     if let error = error {
@@ -156,50 +161,56 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
                         return
                     }
                     
+                    let group = DispatchGroup()
+                    
                     if let ckMessages = ckMessages {
                         
                         for ckMessage in ckMessages {
                             
-                            guard let sendingUserRef = ckMessage[Keys.sendingUserRefKey] as? CKReference else { return }
+                            group.enter()
                             
-                            /*
-                            // Check to see if the user is a part of the chat group
-                            guard let users = chatGroup.users?.sortedArray(using: []) as? [User] else { return }
-                            
-                            users.filter({$0.recordIDString == sendingUserRef.re}).first
-                            */
- 
-                            // If not, fetch the user record
+                            guard let sendingUserRef = ckMessage[Keys.sendingUserRefKey] as? CKReference else {
+                                group.leave()
+                                return
+                            }
                             
                             self.cloudKitManager.fetchRecord(withID: sendingUserRef.recordID, completion: { (record, error) in
                                 if let error = error {
                                     NSLog("Error fetching message sender user from CloudKit. \(error.localizedDescription)")
+                                    group.leave()
                                     return
                                 }
                                 
                                 if let record = record {
                                     
-                                    guard let sentByUser = User(cloudKitRecord: record) else { return }
+                                    guard let sentByUser = User(cloudKitRecord: record) else {
+                                        group.leave()
+                                        return
+                                    }
+                                    
+                                    // Create the message and save to Core Data
                                     _ = Message(cloudKitRecord: ckMessage, chatGroup: chatGroup, sentByUser: sentByUser)
                                     ChatGroupController.shared.saveToPersistantStore()
-                                    
-                                    DispatchQueue.main.async {
-                                        self.collectionView?.reloadData()
-                                    }
+                                    group.leave()
                                 }
-                                
                             })
                         }
                     }
-                } // Messages have been fetched from CloudKit and added to CoreData
-
-                // Now sort all the messages by deliverTime
-                guard let msgOrderedSet = chatGroup.messages else { return }
-                
-                
-                
-                
-
+                    
+                    group.notify(queue: DispatchQueue.main) {
+                        
+                        guard let sortedMsgs = chatGroup.messages?.mutableCopy() as? NSMutableOrderedSet else { return }
+                        let sortDescriptor = NSSortDescriptor(key: "deliverTime", ascending: true)
+                        sortedMsgs.sort(using: [sortDescriptor])
+                        chatGroup.messages = sortedMsgs
+                        UserController.shared.saveToPersistantStore()
+                        DispatchQueue.main.async {
+                            self.collectionView?.reloadData()
+                        }
+                        
+                    }
+                    
+                } // Messages have been fetched from CloudKit, saved to CoreData, and sorted by deliverTime
             }
         }
     }
@@ -228,7 +239,6 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         inputTextField.endEditing(true)
-        
     }
     
     func setupInputComponents() {

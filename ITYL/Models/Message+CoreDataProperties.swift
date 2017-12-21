@@ -14,9 +14,15 @@ import CoreData
 extension Message {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Message> {
+        // Predicate to get messages just for the chat group
+        //let predicate = NSPredicate(format: "chatGroup == %@", chatGroup)
+        
         let sortDescriptors = NSSortDescriptor(key: "deliverTime", ascending: true)
+        
         let fetchRequest = NSFetchRequest<Message>(entityName: "Message")
         fetchRequest.sortDescriptors = [sortDescriptors]
+       // fetchRequest.predicate = predicate
+        
         return fetchRequest
     }
 
