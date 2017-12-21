@@ -157,7 +157,14 @@ class CloudKitManager {
     }
     
     func subscribeToCreationOfRecords(ofType type: String, completion: @escaping ((Error?) -> Void) = { _ in }) {
-        let subscription = CKQuerySubscription(recordType: type, predicate: NSPredicate(value: true), options: .firesOnRecordCreation)
+
+        guard let currUser = UserController.shared.currentUser else { return }
+        
+        currUser.chatGroupsRef
+        
+        let predicate = NSPredicate(format: <#T##String#>, currUser.chatGroupsRef)
+        
+        let subscription = CKQuerySubscription(recordType: type, predicate: predicate, options: .firesOnRecordCreation)
         
 //        let notificationInfo = CKNotificationInfo()
 //        notificationInfo.alertBody = "There's a new message."
