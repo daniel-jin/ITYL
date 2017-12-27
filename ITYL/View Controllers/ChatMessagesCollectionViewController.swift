@@ -48,7 +48,7 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         
         return button
     }()
-
+    
     @IBAction func backToChatsButtonTapped(_ sender: Any) {
         
         performSegue(withIdentifier: "unwindToChatList", sender: self)
@@ -110,7 +110,7 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         sendButton.addGestureRecognizer(longGesture)
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: Notifications.reloadChatGroupDetailCVNotification, object: nil)
-    
+        
         collectionView?.backgroundColor = UIColor.white
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         
@@ -127,7 +127,7 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotificiation), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotificiation), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-
+        
         // MARK: - Fetch messages for the chat group in core data & check/fetch messagse from CloudKit
         // Fetch chatgroups from Core Data
         guard let chatGroup = chatGroup,
@@ -145,7 +145,7 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
             if let subscriptions = subscriptions, subscriptions.count > 0 {
                 
                 if let subscription = subscriptions.filter({ $0.subscriptionID == subID}).first {
-                   
+                    
                     CKContainer.default().publicCloudDatabase.save(subscription, completionHandler: { (subscription, error) in
                         print(error?.localizedDescription ?? "No error")
                     })
@@ -164,8 +164,14 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         let chatGroupRecordIDString = chatGroup.recordIDString
         let chatGroupRecordID = CKRecordID(recordName: chatGroupRecordIDString)
         
-        MessageController.shared.fetchNewCKMessages(chatGroup: chatGroup, chatGroupRecordID: chatGroupRecordID)
-        
+        DispatchQueue.main.async {
+            
+            Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { (_) in
+                
+                MessageController.shared.fetchNewCKMessages(chatGroup: chatGroup, chatGroupRecordID: chatGroupRecordID)
+            }
+            
+        }
     }
     
     @objc func handleKeyboardNotificiation(notification: Notification) {
@@ -215,8 +221,8 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         
         messageInputContainerView.addConstraintsWithFormat(format: "H:|[v0]|", views: topBorderView)
         messageInputContainerView.addConstraintsWithFormat(format: "V:|[v0(0.5)]", views: topBorderView)
-
-
+        
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -266,11 +272,11 @@ class ChatMessagesCollectionViewController: UICollectionViewController, UICollec
         }
         
         
-//        guard let chatGroup = chatGroup,
-//            let chatGroupUsers = chatGroup.users,
-//            let chatGroupUsersArray = Array(chatGroupUsers) as? [User] else {
-//                return UICollectionViewCell()
-//        }
+        //        guard let chatGroup = chatGroup,
+        //            let chatGroupUsers = chatGroup.users,
+        //            let chatGroupUsersArray = Array(chatGroupUsers) as? [User] else {
+        //                return UICollectionViewCell()
+        //        }
         
         return cell
     }
