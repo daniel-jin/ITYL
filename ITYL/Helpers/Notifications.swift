@@ -10,6 +10,7 @@ import Foundation
 
 enum Notifications {
     
+    // Reload collection view
     static let reloadChatGroupDetailCVNotification = Notification.Name("reloadCollectionView")
     
 }
